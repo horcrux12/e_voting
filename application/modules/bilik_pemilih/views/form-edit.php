@@ -6,9 +6,9 @@
                 <ol class="breadcrumb m-0">
                     <li class="breadcrumb-item"><a href="<?php echo base_url()?>">Home</a></li>
                     <?php if ($this->session->userdata('level_admin')  == 1) :?>
-                        <li class="breadcrumb-item"><a href="<?php echo base_url()?>pemilih_umum">Data Pemilih Umum</a></li>
+                        <li class="breadcrumb-item"><a href="<?php echo base_url()?>pemilih_pelajar">Data Pemilih Pelajar</a></li>
                     <?php else: ?>
-                        <li class="breadcrumb-item"><a href="<?php echo base_url()?>pemilih_umum">Data Pemilih</a></li>
+                        <li class="breadcrumb-item"><a href="<?php echo base_url()?>pemilih_pelajar">Data Pemilih</a></li>
                     <?php endif;?>
                     <li class="breadcrumb-item active"><?php echo $title?></li>
                 </ol>
@@ -31,31 +31,19 @@
                     </p> -->
 
                     <div class="p-4">
-                        <form id="wizard-validation-form" action="<?php echo base_url()?>pemilih_umum/update" method="POST">
+                        <form id="wizard-validation-form" action="<?php echo base_url()?>pemilih_pelajar/update" method="POST">
                             <div class="form-group row">
                                 <label class="col-lg-2 control-label" for="no_identitas">Nomor Identitas <span
                                         class="text-danger">*</span><br>
-                                    <small>Nomor Induk Kependudukan (NIK)</small>
+                                        <small>Nomor Induk Siswa (NIS)/ Nomor Induk Mahasiswa (NIM)</small>
                                 </label>
                                 <div class="col-lg-10">
                                     <input type="text" id="id_identitas" name="id_identitas" value="<?php echo $data['pemilih'][0]['no_identitas']?>" hidden>
                                     <input class="form-control" id="no_identitas" required="" name="no_identitas" value="<?php echo $data['pemilih'][0]['no_identitas']?>"
-                                        type="text" data-parsley-trigger="focusout" data-parsley-minlength="16"
-                                        data-parsley-minlength-message="Minimal 16 Karakter.."
+                                        type="text" data-parsley-trigger="focusout" data-parsley-minlength="10"
+                                        data-parsley-minlength-message="Minimal 10 Karakter.."
                                         data-parsley-check_indentitas
                                         data-parsley-check_indentitas-message="Nomor Telah Digunakan"
-                                        data-parsley-type="number">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-lg-2 control-label" for="no_kk">Nomor KK <span
-                                        class="text-danger">*</span><br>
-                                    <small>No. Kartu Keluarga</small>
-                                </label>
-                                <div class="col-lg-10">
-                                    <input class="form-control" id="no_kk" required="" name="no_kk" type="text" value="<?php echo $data['pemilih'][0]['no_kk']?>"
-                                        data-parsley-trigger="focusout" data-parsley-minlength="16"
-                                        data-parsley-minlength-message="Minimal 16 Karakter.."
                                         data-parsley-type="number">
                                 </div>
                             </div>
@@ -101,60 +89,41 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-lg-2 control-label" for="pekerjaan">Pekerjaan <span
+                                <label class="col-lg-2 control-label " for="asal_sekolah">Asal Sekolah/Universitas <span
                                         class="text-danger">*</span></label>
                                 <div class="col-lg-10">
-                                    <input class="form-control" id="pekerjaan" required="" name="pekerjaan" type="text" value="<?php echo $data['pemilih'][0]['pekerjaan']?>"
-                                        placeholder="Masukkan pekerjaan">
+                                    <input type="text" name="asal_sekolah" id="asal_sekolah" class="form-control"
+                                        required data-parsley-trigger="keyup" data-parsley-minlength="20" 
+                                        data-parsley-minlength-message="Minimal 20 Karakter.." placeholder="Masukkan Asal Sekolah/Universitas" value="<?php echo $data['pemilih'][0]['asal_sekolah']?>">
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-lg-2 control-label " for="alamat">Alamat <span
-                                        class="text-danger">*</span></label>
+                                <label class="col-lg-2 control-label" for="kelas_fakultas">Kelas/Fakultas <span
+                                        class="text-danger">*</span>
+                                </label>
                                 <div class="col-lg-10">
-                                    <textarea name="alamat" id="alamat" class="required form-control" rows="4" required
-                                        data-parsley-trigger="keyup" data-parsley-minlength="20"
-                                        data-parsley-minlength-message="Minimal 20 Karakter.."
-                                        placeholder="Masukkan Alamat"><?php echo $data['pemilih'][0]['alamat']?></textarea>
+                                    <input class="form-control" id="kelas_fakultas" required="" data-parsley-trigger="focusout" name="kelas_fakultas" type="text" value="<?php echo $data['pemilih'][0]['kelas_fakultas']?>">
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-lg-2 control-label" for="provinsi">Provinsi <span
-                                        class="text-danger">*</span></label>
+                                <label class="col-lg-2 control-label" for="jurusan">Jurusan <span
+                                        class="text-danger">*</span>
+                                </label>
                                 <div class="col-lg-10">
-                                    <input class="form-control" id="provinsi" required="" name="provinsi" type="text" value="<?php echo $data['pemilih'][0]['provinsi']?>"
-                                        placeholder="Masukkan Nama Provinsi">
+                                    <input class="form-control" id="jurusan" required="" data-parsley-trigger="focusout" name="jurusan" type="text" value="<?php echo $data['pemilih'][0]['jurusan']?>">
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-lg-2 control-label" for="kab_kot">Kabupaten/Kota <span
-                                        class="text-danger">*</span></label>
+                                <label class="col-lg-2 control-label" for="semester">Semester
+                                </label>
                                 <div class="col-lg-10">
-                                    <input class="form-control" id="kab_kot" required="" name="kab_kot" type="text" value="<?php echo $data['pemilih'][0]['kab_kot']?>"
-                                        placeholder="Masukkan Nama Kabupaten/Kota">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-lg-2 control-label" for="kecamatan">Kecamatan<span
-                                        class="text-danger">*</span></label>
-                                <div class="col-lg-10">
-                                    <input class="form-control" id="kecamatan" required="" name="kecamatan" type="text" value="<?php echo $data['pemilih'][0]['kecamatan']?>"
-                                        placeholder="Masukkan Nama Kecamatan">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-lg-2 control-label" for="desa_kel">Desa/Kelurahan <span
-                                        class="text-danger">*</span></label>
-                                <div class="col-lg-10">
-                                    <input class="form-control" id="desa_kel" required="" name="desa_kel" type="text" value="<?php echo $data['pemilih'][0]['desa_kelurahan']?>"
-                                        placeholder="Masukkan Nama Desa/Kelurahan">
+                                    <input class="form-control" id="semester"  name="semester" type="text" data-parsley-type="number" value="<?php echo $data['pemilih'][0]['semester']?>">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-lg-2 control-label " for="kegiatan">Nama Kegiatan <span
                                         class="text-danger">*</span></label>
                                 <div class="col-lg-10">
-                                <?php if($this->session->userdata('level_admin') == 1) :?>
                                     <select name="kegiatan" id="kegiatan" class="form-control" required="">
                                         <?php foreach ($data['kegiatan'] as $key) {?>
                                         <?php if ($data['pemilih'][0]['id_kegiatan'] == $key['id_kegiatan']) :?>
@@ -163,12 +132,6 @@
                                             <option value="<?php echo $key['id_kegiatan']?>"><?php echo $key['nama_kegiatan']?></option>
                                         <?php endif; } ?>
                                     </select>
-                                    <?php else : ?>
-                                    <select name="kegiatan2" id="kegiatan2" class="form-control" required="" disabled>
-                                        <option value="<?php echo $data['kegiatan'][0]['id_kegiatan']?>" selected><?php echo $data['kegiatan'][0]['nama_kegiatan']?></option>
-                                    </select>
-                                    <input type="text" name="kegiatan" id="kegiatan" value="<?php echo $data['kegiatan'][0]['id_kegiatan']?>" hidden>
-                                    <?php endif;?>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -176,7 +139,6 @@
                                         class="text-danger">*</span><i id="loader" class="fas fa-spinner fa-spin ml-2"
                                         style="display: none;"></i></label>
                                 <div class="col-lg-10">
-                                <?php if($this->session->userdata('level_admin') == 1) :?>
                                     <select name="tps" id="tps" class="form-control" required="">
                                         <?php foreach ($data['tps'] as $keys) {?>
                                         <?php if ($data['pemilih'][0]['id_tps'] == $keys['id_tps']) :?>
@@ -185,19 +147,13 @@
                                             <option value="<?php echo $keys['id_tps']?>"><?php echo $keys['nama']?></option>
                                         <?php endif; } ?>
                                     </select>
-                                    <?php else :?>
-                                    <select name="tps2" id="tps2" class="form-control" required="" disabled>
-                                        <option value="<?php echo $data['tps'][0]['id_tps']?>" selected><?php echo $data['tps'][0]['nama']?></option>    
-                                    </select>
-                                    <input type="text" name="tps" id="tps" value="<?php echo $data['tps'][0]['id_tps']?>" hidden>
-                                    <?php endif;?>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-12 mt-3">
                                     <div class="float-right">
                                         <button type="submit" class="btn btn-primary waves-effect waves-light"
-                                            onclick="return confirm('Anda yakin ingin mengubah data?');">
+                                            onclick="return confirm('Anda yakin ingin menambahkan?');">
                                             Submit
                                         </button>
                                         <button type="button" onclick="window.history.go(-1); return false;"

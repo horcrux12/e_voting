@@ -23,6 +23,7 @@
                 </h4>
             </div>
             <div class="card-body">
+            <?php if ($this->session->userdata('level_admin') == 1) {?>
                 <div class="row mb-2">
                     <div class="col-lg-4">
                         <div class="form-group row">
@@ -51,6 +52,7 @@
                         </div>
                     </div>
                 </div>
+            <?php } ?>
                 
                 <table id="user_datatable" class="table table-striped table-bordered table-hover" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                     <thead>

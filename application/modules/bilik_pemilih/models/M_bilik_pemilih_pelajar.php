@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class M_pemilih_pelajar extends CI_Model {
+class M_bilik_pemilih_pelajar extends CI_Model {
 
     public function __construct(){
         parent::__construct();
@@ -22,11 +22,6 @@ class M_pemilih_pelajar extends CI_Model {
         $search_filter = array();
         $search_query = "";
         $search = $postData['search']['value'];
-        if ($this->session->userdata('level_admin') == 1) {
-            $filter_kegiatan = $postData['filterKegiatan'];
-            $filter_tps = $postData['filterTps'];
-        }
-        
 
         if ($search != '') {
             $search_filter[] = " (data_pemilih_pelajar.no_identitas like '%".$search."%' or
@@ -36,16 +31,8 @@ class M_pemilih_pelajar extends CI_Model {
             data_pemilih_pelajar.jurusan like '%".$search."%' or
             data_pemilih_pelajar.semester like '%".$search."%') ";
         }
-        if ($this->session->userdata('level_admin') == 1) {
-            if ($filter_kegiatan) {
-            $search_filter[] = " data_pemilih_pelajar.id_kegiatan='".$filter_kegiatan."'";
-            }
-            if ($filter_tps) {
-                $search_filter[] = " data_pemilih_pelajar.id_tps='".$filter_tps."'";
-            } 
-        }if ($this->session->userdata('level_admin') == 2) {
-            $search_filter[] = " data_pemilih_pelajar.id_tps='".$this->session->userdata('id_login')."'";
-        }
+        $search_filter[] = " data_pemilih_pelajar.id_tps='".$this->session->userdata('id_login')."'";
+        $search_filter[] = " data_pemilih_pelajar.status='1'";
 
         if (count($search_filter) > 0) {
             $search_query = implode(" and ",$search_filter);
@@ -103,8 +90,7 @@ class M_pemilih_pelajar extends CI_Model {
             $row ['nama_tps']       = $field['nama_tps'];
             $row ['no_bilik']       = $field['no_bilik'];
             $row ['status']         = $status;
-            $row ['action']         = '<a title="Edit" class="btn btn-warning waves-effect waves-light btn-xs" style="margin-bottom:5px" href="'.base_url().'pemilih_pelajar/edit-pemilih_pelajar/'.$field['no_identitas'].'"><i class="fas fa-pencil-alt"></i></a><br>
-			<a title="Delete" class="btn btn-danger waves-effect waves-light btn-xs" onclick="return confirm(\'Anda yakin ingin menghapus Pemilih ini?\')" style="margin-bottom:5px" href="'.base_url().'pemilih_pelajar/hapus-pemilih_pelajar/'.$field['no_identitas'].'"><i class="fas fa-trash"></i></a>';
+            $row ['action']         = '<button title="pilih" class="btn btn-primary waves-effect waves-light btn-xs button" data-nama="'.$field['nama'].'" data-id="'.$field['no_identitas'].'" style="margin-bottom:5px" ><i class="fas fa-angle-double-right"></i></button>';
             $data[] = $row;
         }
 
@@ -176,10 +162,5 @@ class M_pemilih_pelajar extends CI_Model {
             $last_id = 0;
         }
         return $q->result_array();
-    }
-
-    function get_kegiatan_now(){
-        $this->db->select('*');
-        $this->db->from('tb_kegiatan');
     }
 }

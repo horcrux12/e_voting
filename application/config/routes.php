@@ -142,3 +142,11 @@ $route['pemilih_pelajar/hapus-pemilih_pelajar/(:any)'] = 'pemilih_pelajar/pemili
 $route['pemilih_pelajar/server-side'] = 'pemilih_pelajar/pemilih_pelajar/serverSide';
 $route['pemilih_pelajar/getpemilih_pelajar/(:any)'] = 'pemilih_pelajar/pemilih_pelajar/get_pemilih_pelajar/$1';
 $route['pemilih_pelajar/check-user'] = 'pemilih_pelajar/pemilih_pelajar/check_pemilih_pelajar';
+
+// Bilik Pemilihan
+$route['atur-bilik/(:num)'] = 'bilik_pemilih/table/$1';
+$route['atur-bilik/server-side'] = 'bilik_pemilih/bilik_pemilih/serverSide';
+$route['atur-bilik/isi-bilik'] = 'bilik_pemilih/isibilik';
+
+// Data User JS
+$route['ambil-data/user'] = 'templates/data_user/get';

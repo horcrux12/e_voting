@@ -128,21 +128,37 @@
                     <label class="col-lg-2 control-label " for="kegiatan">Nama Kegiatan <span
                             class="text-danger">*</span></label>
                     <div class="col-lg-10">
-                        <select name="kegiatan" id="kegiatan" class="form-control" required="">
-                            <option value="">Pilih Kegiatan</option>
-                            <?php foreach ($data as $key) {?>
-                            <option value="<?php echo $key['id_kegiatan']?>"><?php echo $key['nama_kegiatan']?></option>
-                            <?php } ?>
-                        </select>
+                    <?php if ($this->session->userdata('level_admin') == 1) :?>
+                            <select name="kegiatan" id="kegiatan" class="form-control" required="">
+                                <option value="">Pilih Kegiatan</option>
+                                <?php foreach ($data['kegiatan'] as $key) {?>
+                                    <option value="<?php echo $key['id_kegiatan']?>"><?php echo $key['nama_kegiatan']?></option>
+                                <?php } ?>
+                            </select>
+                        <?php else: ?>
+                            <select name="kegiatan2" id="kegiatan2" class="form-control" required="" disabled>
+                                <?php foreach ($data['kegiatan'] as $key) {?>
+                                    <option value="<?php echo $key['id_kegiatan']?>"><?php echo $key['nama_kegiatan']?></option>
+                                <?php } ?>
+                            </select>
+                            <input type="text" name="kegiatan" value="<?php echo $data['kegiatan'][0]['id_kegiatan']?>" hidden>
+                        <?php endif; ?>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-lg-2 control-label " for="tps">Nama TPS<span class="text-danger">*</span><i
                             id="loader" class="fas fa-spinner fa-spin ml-2" style="display: none;"></i></label>
                     <div class="col-lg-10">
-                        <select name="tps" id="tps" class="form-control" disabled required="">
-                            <option value="">Pilih TPS</option>
-                        </select>
+                        <?php if ($this->session->userdata('level_admin') == 1) :?>
+                            <select name="tps" id="tps" class="form-control" disabled required="">
+                                <option value="">Pilih TPS</option>
+                            </select>
+                        <?php else: ?>
+                            <select name="tps2" id="tps2" class="form-control" disabled required="">
+                                <option value="<?php echo $data['tps'][0]['id_tps'] ?>"><?php echo $data['tps'][0]['nama'] ?></option>
+                            </select>
+                            <input type="text" name="tps" value="<?php echo $data['tps'][0]['id_tps'] ?>" hidden>
+                        <?php endif; ?>
                     </div>
                 </div>
                 <div class="form-group row">

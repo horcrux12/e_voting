@@ -62,7 +62,7 @@
                     </div>
                     <div class="col-lg-5">
                         <div class="input-group">
-                            <input type="text" required="" data-parsley-trigger="change focusout" class="form-control" placeholder="mm/dd/yyyy" id="datepicker-autoclose-start" name="tanggal_lahir">
+                            <input type="text" required="" data-parsley-trigger="focusout" class="form-control" placeholder="mm/dd/yyyy" id="datepicker-autoclose-start" name="tanggal_lahir">
                             <div class="input-group-append">
                                 <span class="input-group-text bg-primary text-white b-0"><i class="mdi mdi-calendar"></i></span>
                             </div>
@@ -105,45 +105,28 @@
                     <label class="col-lg-2 control-label " for="kegiatan">Nama Kegiatan <span
                             class="text-danger">*</span></label>
                     <div class="col-lg-10">
-                        <?php if ($this->session->userdata('level_admin') == 1) :?>
-                            <select name="kegiatan" id="kegiatan" class="form-control" required="">
-                                <option value="">Pilih Kegiatan</option>
-                                <?php foreach ($data['kegiatan'] as $key) {?>
-                                    <option value="<?php echo $key['id_kegiatan']?>"><?php echo $key['nama_kegiatan']?></option>
-                                <?php } ?>
-                            </select>
-                        <?php else: ?>
-                            <select name="kegiatan2" id="kegiatan2" class="form-control" required="" disabled>
-                                <?php foreach ($data['kegiatan'] as $key) {?>
-                                    <option value="<?php echo $key['id_kegiatan']?>"><?php echo $key['nama_kegiatan']?></option>
-                                <?php } ?>
-                            </select>
-                            <input type="text" name="kegiatan" value="<?php echo $data['kegiatan'][0]['id_kegiatan']?>" hidden>
-                        <?php endif; ?>
+                        <select name="kegiatan" id="kegiatan" class="form-control" required="">
+                            <option value="">Pilih Kegiatan</option>
+                            <?php foreach ($data as $key) {?>
+                            <option value="<?php echo $key['id_kegiatan']?>"><?php echo $key['nama_kegiatan']?></option>
+                            <?php } ?>
+                        </select>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-lg-2 control-label " for="tps">Nama TPS<span class="text-danger">*</span><i
                             id="loader" class="fas fa-spinner fa-spin ml-2" style="display: none;"></i></label>
                     <div class="col-lg-10">
-                        <?php if ($this->session->userdata('level_admin') == 1) :?>
-                            <select name="tps" id="tps" class="form-control" disabled required="">
-                                <option value="">Pilih TPS</option>
-                            </select>
-                        <?php else: ?>
-                            <select name="tps2" id="tps2" class="form-control" disabled required="">
-                                <option value="<?php echo $data['tps'][0]['id_tps'] ?>"><?php echo $data['tps'][0]['nama'] ?></option>
-                            </select>
-                            <input type="text" name="tps" value="<?php echo $data['tps'][0]['id_tps'] ?>" hidden>
-                        <?php endif; ?>
-                        
+                        <select name="tps" id="tps" class="form-control" disabled required="">
+                            <option value="">Pilih TPS</option>
+                        </select>
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-12 mt-3">
                         <div class="float-right">
                             <button type="submit" class="btn btn-primary waves-effect waves-light"
-                                onclick="return confirm('Anda yakin ingin menambahkan data?');">
+                                onclick="return confirm('Anda yakin ingin mengubah data?');">
                                 Submit
                             </button>
                             <button type="button" onclick="window.history.go(-1); return false;"

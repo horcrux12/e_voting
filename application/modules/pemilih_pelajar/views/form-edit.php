@@ -124,6 +124,7 @@
                                 <label class="col-lg-2 control-label " for="kegiatan">Nama Kegiatan <span
                                         class="text-danger">*</span></label>
                                 <div class="col-lg-10">
+                                    <?php if($this->session->userdata('level_admin') == 1) :?>
                                     <select name="kegiatan" id="kegiatan" class="form-control" required="">
                                         <?php foreach ($data['kegiatan'] as $key) {?>
                                         <?php if ($data['pemilih'][0]['id_kegiatan'] == $key['id_kegiatan']) :?>
@@ -132,6 +133,12 @@
                                             <option value="<?php echo $key['id_kegiatan']?>"><?php echo $key['nama_kegiatan']?></option>
                                         <?php endif; } ?>
                                     </select>
+                                    <?php else : ?>
+                                    <select name="kegiatan2" id="kegiatan2" class="form-control" required="" disabled>
+                                        <option value="<?php echo $data['kegiatan'][0]['id_kegiatan']?>" selected><?php echo $data['kegiatan'][0]['nama_kegiatan']?></option>
+                                    </select>
+                                    <input type="text" name="kegiatan" id="kegiatan" value="<?php echo $data['kegiatan'][0]['id_kegiatan']?>" hidden>
+                                    <?php endif;?>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -139,6 +146,7 @@
                                         class="text-danger">*</span><i id="loader" class="fas fa-spinner fa-spin ml-2"
                                         style="display: none;"></i></label>
                                 <div class="col-lg-10">
+                                    <?php if($this->session->userdata('level_admin') == 1) :?>
                                     <select name="tps" id="tps" class="form-control" required="">
                                         <?php foreach ($data['tps'] as $keys) {?>
                                         <?php if ($data['pemilih'][0]['id_tps'] == $keys['id_tps']) :?>
@@ -147,13 +155,19 @@
                                             <option value="<?php echo $keys['id_tps']?>"><?php echo $keys['nama']?></option>
                                         <?php endif; } ?>
                                     </select>
+                                    <?php else :?>
+                                    <select name="tps2" id="tps2" class="form-control" required="" disabled>
+                                        <option value="<?php echo $data['tps'][0]['id_tps']?>" selected><?php echo $data['tps'][0]['nama']?></option>    
+                                    </select>
+                                    <input type="text" name="tps" id="tps" value="<?php echo $data['tps'][0]['id_tps']?>" hidden>
+                                    <?php endif;?>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-12 mt-3">
                                     <div class="float-right">
                                         <button type="submit" class="btn btn-primary waves-effect waves-light"
-                                            onclick="return confirm('Anda yakin ingin menambahkan?');">
+                                            onclick="return confirm('Anda yakin ingin mengubah data?');">
                                             Submit
                                         </button>
                                         <button type="button" onclick="window.history.go(-1); return false;"

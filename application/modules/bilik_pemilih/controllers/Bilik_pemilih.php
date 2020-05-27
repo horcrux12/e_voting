@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Pemilih_umum extends MY_Controller {
+class Bilik_pemilih extends MY_Controller {
 
 	/**
 	 * Index Page for this controller.
@@ -21,7 +21,8 @@ class Pemilih_umum extends MY_Controller {
 
 	public function __construct(){
         parent::__construct();
-        $this->load->model('pemilih_umum/m_pemilih_umum');
+        $this->load->model('bilik_pemilih/m_bilik_pemilih_pelajar');
+        $this->load->model('bilik_pemilih/m_bilik_pemilih_umum');
     }
 	 
 	public function serverSide()
@@ -30,51 +31,102 @@ class Pemilih_umum extends MY_Controller {
 		$postData = $this->input->post();
 
 		// Get data
-		$data = $this->m_pemilih_umum->get_datatables($postData);
+		if ($this->session->userdata('id_jenis') == 1) {
+			$data = $this->m_bilik_pemilih_umum->get_datatables($postData);
+		}else{
+			$data = $this->m_bilik_pemilih_pelajar->get_datatables($postData);
+		}
 
 		echo json_encode($data);
     }
 
-	public function table()
+	public function table($id)
 	{
-		$page_content["page"] 	= 'pemilih_umum/tables';
+		if ($this->session->userdata('id_jenis') == 1) {
+			$page_content["page"] 	= 'bilik_pemilih/tables_umum';
+			$datatables 			= 'assets/js/menu_bilik_pemilih_umum.js';
+		}else{
+			$page_content["page"] 	= 'bilik_pemilih/tables_pelajar';
+			$datatables 			= 'assets/js/menu_bilik_pemilih_pelajar.js';
+
+		}
 		$page_content["css"] 	= '
 			<link href="'.base_url().'assets/libs/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 			<link href="'.base_url().'assets/libs/datatables/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />';
+		
 		$page_content["js"] 	= '
 			<script src="'.base_url().'assets/libs/datatables/jquery.dataTables.min.js"></script>
 			<script src="'.base_url().'assets/libs/datatables/dataTables.bootstrap4.min.js"></script>
 			<!-- Datatables init -->
 			<script src="'.base_url().'assets/js/pages/datatables.init.js"></script>
-			<script src="'.base_url().'assets/js/menu_pemilih_umum.js"></script>
+			<script src="'.base_url($datatables).'"></script>
 			<script src="'.base_url().'assets/libs/moment/moment.min.js"></script>';
-		if ($this->session->userdata('level_admin') == 1) {
+		
+		if ($this->session->userdata('id_jenis') == 1) {
 			$page_content["title"] 	= "Data Pemilih Umum";
 		}else{
-			$page_content["title"] 	= "Data Pemilih";
+			$page_content["title"] 	= "Data Pemilih Pelajar";
 		}
-
-		$data_kegiatan = $this->m_dinamic->getWhere('kegiatan','id_jenis',1)->result_array();
-		$data_tps = $this->m_pemilih_umum->get_tps_umum()->result_array();
-		
-		$page_content["data"]["kegiatan"] = $data_kegiatan;
-		$page_content["data"]["tps"] = $data_tps;
+		$page_content["data"] 	= $id;
 
 		$this->templates->pageTemplates($page_content);
 	}
 
-	public function get_pemilih_umum($id){
+	public function isibilik(){
+		// print_r($this->input->post());
+		$input 			= $this->input->post();
+		
+		$data_bilik 	= array(
+			'id_pemilih'	=> $input['identitas']
+		);
+		$data_pemilih 	= array(
+			'status'		=> 2
+		); 
+
+		
+		$input_bilik 	= $this->m_dinamic->update_data('id_bilik',$input['id_bilik'],$data_bilik,'user_bilik');
+		if ($this->session->userdata('id_jenis') == 1) {
+			$input_pemilih 	= $this->m_dinamic->update_data('no_identitas',$input['identitas'],$data_pemilih,'data_pemilih_umum');
+		}else{
+			$input_pemilih 	= $this->m_dinamic->update_data('no_identitas',$input['identitas'],$data_pemilih,'data_pemilih_pelajar');
+		}
+
+		// print_r($input_pemilih);
+
+		if ($input_bilik) {
+			if ($input_pemilih) {
+				echo "<script>
+				alert('Berhasil mengatur pemilih');
+				window.location.href='".base_url('dashboard')."';
+				</script>";
+			}else{
+				echo "<script>
+				alert('Gagal mengatur pemilih');
+				window.history.back();
+				</script>";
+			}
+		}else{
+			echo "<script>
+			alert('Gagal mengatur pemilih');
+			window.history.back();
+			</script>";
+		}
+
+
+	}
+
+	public function get_pemilih_pelajar($id){
 		if ($id != 0) {
 			$data = $this->m_dinamic->getWhere ('admin_tps','id_kegiatan',$id)->result_array();
 		}else{
-			$data = $this->m_pemilih_umum->get_tps_umum ()->result_array();
+			$data = $this->m_pemilih_pelajar->get_tps_pelajar ()->result_array();
 		}
 		echo json_encode($data);
 	}
 
 	public function tambah()
 	{
-		$page_content["page"] = 'pemilih_umum/form-tambah';
+		$page_content["page"] = 'pemilih_pelajar/form-tambah';
 		$page_content["css"] = '
 			<link href="'.base_url().'assets/libs/bootstrap-timepicker/bootstrap-timepicker.min.css" rel="stylesheet" type="text/css" />
 			<link href="'.base_url().'assets/libs/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />';
@@ -85,27 +137,17 @@ class Pemilih_umum extends MY_Controller {
 			<script src="'.base_url().'assets/libs/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
 
 			<!-- Init js-->
-			<script src="'.base_url().'assets/js/pages/form-validation-pemilih_umum.init.js"></script>';
+			<script src="'.base_url().'assets/js/pages/form-validation-pemilih_pelajar.init.js"></script>';
 
-		$page_content["title"] = "Tambah Data Pemilih Umum";
-		// $data = $this->m_dinamic->getWhere('kegiatan','id_jenis',1)->result_array();
-
-		if ($this->session->userdata('level_admin') == 1) {
-			$data 		= $this->m_dinamic->getWhere('kegiatan','id_jenis',1)->result_array();
-			$data_tps 	= '';
-		}else{
-			$data 		= $this->m_dinamic->getWhere('kegiatan','id_kegiatan',$this->session->userdata('id_kegiatan'))->result_array();
-			$data_tps 	= $this->m_dinamic->getWhere('admin_tps','id_tps',$this->session->userdata('id_login'))->result_array();
-		}
-
-		$page_content["data"]["kegiatan"] 	= $data;
-		$page_content["data"]["tps"] 		= $data_tps;
+		$page_content["title"] = "Tambah Data Pemilih Pelajar";
+		$data = $this->m_dinamic->getWhere('kegiatan','id_jenis',2)->result_array();
+		$page_content["data"] = $data;
 
 		$this->templates->pageTemplates($page_content);
 	}
 
 	public function edit($id){
-		$page_content["page"] = 'pemilih_umum/form-edit';
+		$page_content["page"] = 'pemilih_pelajar/form-edit';
 		$page_content["css"] = '
 			<link href="'.base_url().'assets/libs/bootstrap-timepicker/bootstrap-timepicker.min.css" rel="stylesheet" type="text/css" />
 			<link href="'.base_url().'assets/libs/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />';
@@ -116,23 +158,16 @@ class Pemilih_umum extends MY_Controller {
 			<script src="'.base_url().'assets/libs/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
 
 			<!-- Validation init js-->
-			<script src="'.base_url().'assets/js/pages/form-validation-pemilih_umum.init.js"></script>';
+			<script src="'.base_url().'assets/js/pages/form-validation-pemilih_pelajar.init.js"></script>';
 
-		$page_content["title"] = "Edit Bilik";
+		$page_content["title"] = "Edit Pemilih Pelajar";
 		
-		$data_identitas = $this->m_dinamic->getWhere('data_pemilih_umum','no_identitas',$id)->result_array();
-		// $data_tps 		= $this->m_dinamic->getWhere ('admin_tps','id_kegiatan',$data_identitas[0]['id_kegiatan'])->result_array();
-		// $data_kegiatan 	= $this->m_dinamic->getWhere('kegiatan','id_jenis',1)->result_array();
-		if ($this->session->userdata('level_admin') == 1) {
-			$data_tps 		= $this->m_dinamic->getWhere ('admin_tps','id_kegiatan',$data_identitas[0]['id_kegiatan'])->result_array();
-			$data_kegiatan 	= $this->m_dinamic->getWhere('kegiatan','id_jenis',1)->result_array();
-		}else{
-			$data_tps 		= $this->m_dinamic->getWhere ('admin_tps','id_tps',$this->session->userdata('id_login'))->result_array();
-			$data_kegiatan 	= $this->m_dinamic->getWhere('kegiatan','id_kegiatan',$this->session->userdata('id_kegiatan'))->result_array();
-		}
+		$data_identitas = $this->m_dinamic->getWhere('data_pemilih_pelajar','no_identitas',$id)->result_array();
+		$data_tps 		= $this->m_dinamic->getWhere ('admin_tps','id_kegiatan',$data_identitas[0]['id_kegiatan'])->result_array();
+		$data_kegiatan 	= $this->m_dinamic->getWhere('kegiatan','id_jenis',2)->result_array();
 
 		// echo "<pre>";
-		// print_r($data);
+		// print_r($data_identitas);
 		// echo "</pre>";
 		
 		$page_content["data"]["pemilih"] = $data_identitas;
@@ -146,7 +181,7 @@ class Pemilih_umum extends MY_Controller {
 		
 		$input = $this->input->post();
 
-		$last_no_urut 	= $this->m_pemilih_umum->last_no_urut( $input['kegiatan'], $input['tps']);
+		$last_no_urut 	= $this->m_pemilih_pelajar->last_no_urut( $input['kegiatan'], $input['tps']);
 		$jumlah			= count($last_no_urut);
 		if ($jumlah == 0) {
 			$no_urut = 1;
@@ -168,33 +203,32 @@ class Pemilih_umum extends MY_Controller {
 
 		// $where_tps = $input['tps'];
 
-		$data_pemilih_umum = array(
+		$data_pemilih_pelajar = array(
 			'no_identitas'		=> $input['no_identitas'],
-			'no_kk'				=> $input['no_kk'],
 			'nama'				=> $input['nama'],
+			'kelas_fakultas'	=> $input['kelas_fakultas'],
+			'jurusan'			=> $input['jurusan'],
+			'semester'			=> $input['semester'],
 			'gender'			=> $input['gender'],
 			'tempat_lahir'		=> $input['tempat_lahir'],
 			'tanggal_lahir'		=> nice_date($input['tanggal_lahir'],'Y-m-d'),
-			'alamat'			=> $input['alamat'],
-			'provinsi'			=> $input['provinsi'],
-			'kecamatan'			=> $input['kecamatan'],
-			'kab_kot'			=> $input['kab_kot'],
-			'desa_kelurahan'	=> $input['desa_kel'],
+			'asal_sekolah'		=> $input['asal_sekolah'],
 			'no_urut'			=> $no_urut,
 			'status'			=> 1,
-			'pekerjaan'			=> $input['pekerjaan'],
 			'id_kegiatan'		=> $input['kegiatan'],
 			'id_tps'			=> $input['tps']
 		);
 
-		// print_r($data_pemilih_umum);
+		// echo "<pre>";
+		// print_r($data_pemilih_pelajar);
+		// echo "</pre>";
 		
-		$save_pemilih_umum 		= $this->m_pemilih_umum->store('data_pemilih_umum',$data_pemilih_umum);
+		$save_pemilih_pelajar 		= $this->m_pemilih_pelajar->store('data_pemilih_pelajar',$data_pemilih_pelajar);
 
-		if ($save_pemilih_umum) {
+		if ($save_pemilih_pelajar) {
 			echo "<script>
 			alert('Data Berhasil ditambah');
-			window.location.href='".base_url('pemilih_umum')."';
+			window.location.href='".base_url('pemilih_pelajar')."';
 			</script>";
 		}else{
 			echo "<script>
@@ -207,28 +241,25 @@ class Pemilih_umum extends MY_Controller {
 	public function update(){
 		$input 		= $this->input->post();
 		$where 		= $input['id_identitas'];
-		$prev_data	= $this->m_dinamic->getWhere ('data_pemilih_umum','no_identitas',$where)->result_array();
+		$prev_data	= $this->m_dinamic->getWhere ('data_pemilih_pelajar','no_identitas',$where)->result_array();
 
 		if ($input['tps'] == $prev_data[0]['id_tps']) {
 			$data_pemilih = array(
 				'no_identitas'		=> $input['no_identitas'],
-				'no_kk'				=> $input['no_kk'],
 				'nama'				=> $input['nama'],
+				'kelas_fakultas'	=> $input['kelas_fakultas'],
+				'jurusan'			=> $input['jurusan'],
+				'semester'			=> $input['semester'],
 				'gender'			=> $input['gender'],
 				'tempat_lahir'		=> $input['tempat_lahir'],
 				'tanggal_lahir'		=> nice_date($input['tanggal_lahir'],'Y-m-d'),
-				'alamat'			=> $input['alamat'],
-				'provinsi'			=> $input['provinsi'],
-				'kecamatan'			=> $input['kecamatan'],
-				'kab_kot'			=> $input['kab_kot'],
-				'desa_kelurahan'	=> $input['desa_kel'],
-				'pekerjaan'			=> $input['pekerjaan'],
+				'asal_sekolah'		=> $input['asal_sekolah'],
 				'id_kegiatan'		=> $input['kegiatan'],
 				'id_tps'			=> $input['tps']
 			);
 		}else{
 
-			$last_no_urut 	= $this->m_pemilih_umum->last_no_urut( $input['kegiatan'], $input['tps']);
+			$last_no_urut 	= $this->m_pemilih_pelajar->last_no_urut( $input['kegiatan'], $input['tps']);
 			$jumlah			= count($last_no_urut);
 			if ($jumlah == 0) {
 				$no_urut = 1;
@@ -250,29 +281,27 @@ class Pemilih_umum extends MY_Controller {
 
 			$data_pemilih = array(
 				'no_identitas'		=> $input['no_identitas'],
-				'no_kk'				=> $input['no_kk'],
 				'nama'				=> $input['nama'],
+				'kelas_fakultas'	=> $input['kelas_fakultas'],
+				'jurusan'			=> $input['jurusan'],
+				'semester'			=> $input['semester'],
 				'gender'			=> $input['gender'],
 				'tempat_lahir'		=> $input['tempat_lahir'],
 				'tanggal_lahir'		=> nice_date($input['tanggal_lahir'],'Y-m-d'),
-				'alamat'			=> $input['alamat'],
-				'provinsi'			=> $input['provinsi'],
-				'kab_kot'			=> $input['kab_kot'],
-				'desa_kelurahan'	=> $input['desa_kel'],
+				'asal_sekolah'		=> $input['asal_sekolah'],
 				'no_urut'			=> $no_urut,
 				'status'			=> 1,
-				'pekerjaan'			=> $input['pekerjaan'],
 				'id_kegiatan'		=> $input['kegiatan'],
 				'id_tps'			=> $input['tps']
 			);
 		}
 
-		$input_pemilih_umum = $this->m_dinamic->update_data('no_identitas',$where,$data_pemilih,'data_pemilih_umum');
+		$input_pemilih_pelajar = $this->m_dinamic->update_data('no_identitas',$where,$data_pemilih,'data_pemilih_pelajar');
 
-		if ($input_pemilih_umum) {
+		if ($input_pemilih_pelajar) {
 			echo "<script>
 			alert('Data Berhasil diubah');
-			window.location.href='".base_url('pemilih_umum')."';
+			window.location.href='".base_url('pemilih_pelajar')."';
 			</script>";
 		}else{
 			echo "<script>
@@ -284,14 +313,13 @@ class Pemilih_umum extends MY_Controller {
 
 	public function drop($id){
 		
-		// $data_pemilih_umum		= $this->m_dinamic->getWhere ('user_pemilih_umum','id_pemilih_umum',$id)->result_array();
-		$delete_pemilih_umum 	= $this->m_dinamic->delete_data('data_pemilih_umum','no_identitas',$id);
+		$delete_pemilih_pelajar 	= $this->m_dinamic->delete_data('data_pemilih_pelajar','no_identitas',$id);
 		
 		
-		if ($delete_pemilih_umum) {
+		if ($delete_pemilih_pelajar) {
 			echo "<script>
 			alert('Data Berhasil dihapus');
-			window.location.href='".base_url('pemilih_umum')."';
+			window.location.href='".base_url('pemilih_pelajar')."';
 			</script>";
 		}else {
 			echo "<script>
@@ -301,7 +329,7 @@ class Pemilih_umum extends MY_Controller {
 		}
 	}
 
-	public function check_pemilih_umum(){
+	public function check_pemilih_pelajar(){
 		$indentitas = $this->input->post('no_identitas');
 		$last_identitas = $this->input->post('id');
 		// $username = $a;
@@ -313,7 +341,7 @@ class Pemilih_umum extends MY_Controller {
 					);
 					echo json_encode($output);
 				}else{
-					$ini = $this->m_pemilih_umum->validate($indentitas);
+					$ini = $this->m_pemilih_pelajar->validate($indentitas);
 					if($ini->num_rows() == 0)
 					{
 						$output = array(
@@ -323,7 +351,7 @@ class Pemilih_umum extends MY_Controller {
 					}
 				}
 			}else{
-				$ini = $this->m_pemilih_umum->validate($indentitas);
+				$ini = $this->m_pemilih_pelajar->validate($indentitas);
 				if($ini->num_rows() == 0)
 				{
 					$output = array(

@@ -88,8 +88,17 @@ class Pemilih_pelajar extends MY_Controller {
 			<script src="'.base_url().'assets/js/pages/form-validation-pemilih_pelajar.init.js"></script>';
 
 		$page_content["title"] = "Tambah Data Pemilih Pelajar";
-		$data = $this->m_dinamic->getWhere('kegiatan','id_jenis',2)->result_array();
-		$page_content["data"] = $data;
+
+		if ($this->session->userdata('level_admin') == 1) {
+			$data 		= $this->m_dinamic->getWhere('kegiatan','id_jenis',2)->result_array();
+			$data_tps 	= '';
+		}else{
+			$data 		= $this->m_dinamic->getWhere('kegiatan','id_kegiatan',$this->session->userdata('id_kegiatan'))->result_array();
+			$data_tps 	= $this->m_dinamic->getWhere('admin_tps','id_tps',$this->session->userdata('id_login'))->result_array();
+		}
+
+		$page_content["data"]["kegiatan"] 	= $data;
+		$page_content["data"]["tps"] 		= $data_tps;
 
 		$this->templates->pageTemplates($page_content);
 	}
@@ -111,16 +120,22 @@ class Pemilih_pelajar extends MY_Controller {
 		$page_content["title"] = "Edit Pemilih Pelajar";
 		
 		$data_identitas = $this->m_dinamic->getWhere('data_pemilih_pelajar','no_identitas',$id)->result_array();
-		$data_tps 		= $this->m_dinamic->getWhere ('admin_tps','id_kegiatan',$data_identitas[0]['id_kegiatan'])->result_array();
-		$data_kegiatan 	= $this->m_dinamic->getWhere('kegiatan','id_jenis',2)->result_array();
+		if ($this->session->userdata('level_admin') == 1) {
+			$data_tps 		= $this->m_dinamic->getWhere ('admin_tps','id_kegiatan',$data_identitas[0]['id_kegiatan'])->result_array();
+			$data_kegiatan 	= $this->m_dinamic->getWhere('kegiatan','id_jenis',2)->result_array();
+		}else{
+			$data_tps 		= $this->m_dinamic->getWhere ('admin_tps','id_tps',$this->session->userdata('id_login'))->result_array();
+			$data_kegiatan 	= $this->m_dinamic->getWhere('kegiatan','id_kegiatan',$this->session->userdata('id_kegiatan'))->result_array();
+		}
+		
 
 		// echo "<pre>";
 		// print_r($data_identitas);
 		// echo "</pre>";
 		
-		$page_content["data"]["pemilih"] = $data_identitas;
-		$page_content["data"]["tps"] = $data_tps;
-		$page_content["data"]["kegiatan"] = $data_kegiatan;
+		$page_content["data"]["pemilih"] 	= $data_identitas;
+		$page_content["data"]["tps"] 		= $data_tps;
+		$page_content["data"]["kegiatan"] 	= $data_kegiatan;
 		
 		$this->templates->pageTemplates($page_content);
 	}

@@ -14,6 +14,9 @@ $(document).ready(function() {
     $("#datepicker-autoclose-start").datepicker({
         autoclose: !0,
         todayHighlight: !0
+    }).on('changeDate', function(e) {
+        // Revalidate the date field
+        $(this).parsley().validate();
     });
 
     let cek = $("#id_identitas").val();

@@ -129,6 +129,7 @@ class Tps extends MY_Controller {
 			'no_tps'		=> $this->input->post('no_tps'),
 			'jumlah_bilik'	=> 0,
 			'id_kegiatan'	=> $this->input->post('kegiatan'),
+			'level'			=> 2
 		);
 
 		$data_panitia = array(
@@ -191,6 +192,7 @@ class Tps extends MY_Controller {
 			'lokasi'		=> $input['lokasi'],
 			'no_tps'		=> $input['no_tps'],
 			'id_kegiatan'	=> $input['kegiatan'],
+			'level'			=> 2
 		);
 
 		$input_tps = $this->m_dinamic->update_data('id_tps',$where,$data_tps,'admin_tps');

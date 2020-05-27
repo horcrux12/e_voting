@@ -22,8 +22,11 @@ class M_pemilih_umum extends CI_Model {
         $search_filter = array();
         $search_query = "";
         $search = $postData['search']['value'];
-        $filter_kegiatan = $postData['filterKegiatan'];
-        $filter_tps = $postData['filterTps'];
+        if ($this->session->userdata('level_admin') == 1) {
+            $filter_kegiatan = $postData['filterKegiatan'];
+            $filter_tps = $postData['filterTps'];
+        }
+        
 
         if ($search != '') {
             $search_filter[] = " (data_pemilih_umum.no_identitas like '%".$search."%' or 
@@ -34,12 +37,18 @@ class M_pemilih_umum extends CI_Model {
             data_pemilih_umum.kab_kot like '%".$search."%' or
             data_pemilih_umum.desa_kelurahan like '%".$search."%') ";
         }
-        if ($filter_kegiatan) {
+        if ($this->session->userdata('level_admin') == 1) {
+            if ($filter_kegiatan) {
             $search_filter[] = " data_pemilih_umum.id_kegiatan='".$filter_kegiatan."'";
+            }
+            if ($filter_tps) {
+                $search_filter[] = " data_pemilih_umum.id_tps='".$filter_tps."'";
+            }
         }
-        if ($filter_tps) {
-            $search_filter[] = " data_pemilih_umum.id_tps='".$filter_tps."'";
+        if ($this->session->userdata('level_admin') == 2) {
+            $search_filter[] = " data_pemilih_umum.id_tps='".$this->session->userdata('id_login')."'";
         }
+        
 
         if (count($search_filter) > 0) {
             $search_query = implode(" and ",$search_filter);

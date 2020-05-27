@@ -42,7 +42,7 @@ class Login extends MX_Controller {
                 $data_session = [
                     'id_login' => $response[0]['id_admin'],
                     'nama' => $response[0]['nama'],
-                    'level_admin' => $level,
+                    'level_admin' => $response[0]['level'],
                     'logged' => 1
                 ];
                 
@@ -75,7 +75,7 @@ class Login extends MX_Controller {
                     'start_date'        => $response[0]['start_date'],
                     'end_date'          => $response[0]['end_date'],
                     'lokasi'            => $response[0]['lokasi'],
-                    'level_admin'       => $level,
+                    'level_admin'       => $response[0]['level'],
                     'logged'            => 1
                 ];
                 

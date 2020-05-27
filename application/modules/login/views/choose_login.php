@@ -105,7 +105,7 @@
         <div class="row text-center">
             <div class="col-lg-12 col-md-12 col-xl-12" style="margin-bottom: 150px;">
                 <h4 class="tittle text-light">
-                    <img src="assets/images/logo_voting.png" alt="" style="height: 100px">
+                    <img src="<?php echo base_url()?>assets/images/logo_voting.png" alt="" style="height: 100px">
                     e-Voting
                 </h4>
             </div>

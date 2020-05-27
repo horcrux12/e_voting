@@ -457,9 +457,10 @@
         <!-- Vendor js -->
         <script src="<?php echo base_url();?>assets/js/vendor.min.js"></script>
         <!-- <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script> -->
-        <script>
+        <!-- <script>
             var baseurl = "<?php echo base_url()?>";
-        </script>
+        </script> -->
+        <script src="<?php echo base_url();?>assets/js/url_api.js"></script>
         <!-- App js -->
         <script src="<?php echo base_url();?>assets/js/app.min.js"></script>
 

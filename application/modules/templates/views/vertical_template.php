@@ -126,22 +126,28 @@
                         </li>
                         <li class="menu-title">Data E-Voting</li>
                         <li>
-                            <a href="<?php echo base_url();?>kegiatan" class="waves-effect waves-light">
-                                <i class="mdi mdi-calendar"></i>
+                            <a href="javascript: void(0);" class="waves-effect waves-light">
+                                <i class="mdi mdi-invert-colors"></i>
                                 <span> Kegiatan </span>
+                                <span class="menu-arrow"></span>
                             </a>
+                            <ul class="nav-second-level" aria-expanded="false">
+
+                                <li><a href="<?php echo base_url();?>kegiatan">Data Kegiatan</a></li>
+                                <li><a href="javascript: void(0);">Data Pemilihan</a></li>
+                            </ul>
                         </li>
                         <li>
-                            <a href="<?php echo base_url();?>tps" class="waves-effect waves-light">
-                                <i class="mdi mdi-calendar"></i>
-                                <span> TPS</span>
+                            <a href="javascript: void(0);" class="waves-effect waves-light">
+                                <i class="mdi mdi-invert-colors"></i>
+                                <span> TPS </span>
+                                <span class="menu-arrow"></span>
                             </a>
-                        </li>
-                        <li>
-                            <a href="<?php echo base_url();?>panitia" class="waves-effect waves-light">
-                                <i class="mdi mdi-calendar"></i>
-                                <span> Panitia</span>
-                            </a>
+                            <ul class="nav-second-level" aria-expanded="false">
+
+                                <li><a href="<?php echo base_url();?>tps">Data TPS</a></li>
+                                <li><a href="<?php echo base_url();?>panitia">Data Penitia</a></li>
+                            </ul>
                         </li>
                         <li>
                             <a href="<?php echo base_url();?>bilik" class="waves-effect waves-light">
@@ -232,9 +238,10 @@
 
     <!-- Vendor js -->
     <script src="<?php echo base_url();?>assets/js/vendor.min.js"></script>
-    <script>
+    <!-- <script>
         var baseurl = "<?php echo base_url()?>";
-    </script>
+    </script> -->
+    <script src="<?php echo base_url();?>assets/js/url_api.js"></script>
 
     <?php echo $js; ?>
     

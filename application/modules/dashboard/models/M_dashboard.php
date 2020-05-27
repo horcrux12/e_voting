@@ -17,6 +17,48 @@ class M_dashboard extends CI_Model {
         return $q;
     }
 
+    function get_tps_pelajar($id_tps){
+        $this->db->select('*');
+        $this->db->from('data_pemilih_pelajar');
+        $this->db->where('id_tps', $id_tps);
+        $q = $this->db->get();
+        return $q->num_rows();
+    }
+
+    function get_tps_umum($id_tps){
+        $this->db->select('*');
+        $this->db->from('data_pemilih_umum');
+        $this->db->where('id_tps', $id_tps);
+        $q = $this->db->get();
+        return $q->num_rows();
+    }
+
+    function get_tps_free_pelajar($id_tps){
+        $this->db->select('*');
+        $this->db->from('data_pemilih_pelajar');
+        $this->db->where('id_tps', $id_tps);
+        $this->db->where('status', 1);
+        $q = $this->db->get();
+        return $q->num_rows();
+    }
+
+    function get_tps_free_umum($id_tps){
+        $this->db->select('*');
+        $this->db->from('data_pemilih_umum');
+        $this->db->where('id_tps', $id_tps);
+        $this->db->where('status', 1);
+        $q = $this->db->get();
+        return $q->num_rows();
+    }
+
+    function get_bilik($id_tps){
+        $this->db->select('*');
+        $this->db->from('user_bilik');
+        $this->db->where('id_tps',$id_tps);
+        $q = $this->db->get();
+        return $q;
+    }
+
     function store($tabel, $data){
         return $this->db->insert($tabel, $data);
     }
