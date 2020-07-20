@@ -1,35 +1,82 @@
 $(document).ready(function(){
     var form = $("#wizard-validation-form");
 
-    $(".limit").each(function(){
-        console.log($(this).attr("name"));
-        // $(this).on("input",function(){
+    // $(".limit").each(function(){
+    //     console.log($(this).attr("name"));
+    //     // $(this).on("input",function(){
             
-        // })
-    });
+    //     // })
+    // });
 
-    $("#datepicker-autoclose-start").datepicker({
-        autoclose: !0,
-        todayHighlight: !0
-    });
-    $("#datepicker-autoclose-end").datepicker({
-        autoclose: !0,
-        todayHighlight: !0
-    });
-    $("#timepicker-start").timepicker({
-        showMeridian: !1,
-        icons: {
-            up: "mdi mdi-chevron-up",
-            down: "mdi mdi-chevron-down"
+
+    $("#tanggal_kegiatan").daterangepicker({
+        timePicker: true,
+        timePicker24Hour: true,
+        startDate: moment().startOf('hour'),
+        endDate: moment().startOf('hour').add(32, 'hour'),
+        locale: {
+          format: 'MM/DD/YYYY HH:mm'
         }
-    });
-    $("#timepicker-end").timepicker({
-        showMeridian: !1,
-        icons: {
-            up: "mdi mdi-chevron-up",
-            down: "mdi mdi-chevron-down"
-        }
-    });
+      });
+
+    // $("#datepicker-autoclose-start").datepicker({
+    //     autoclose: !0,
+    //     startDate: moment().format('MM/DD/YYYY')
+    // }).on('changeDate', function(e) {
+    //     // Revalidate the date field
+    //     var tanggal = new Date(e.date.valueOf());
+    //     console.log(tanggal);
+    //     $("#datepicker-autoclose-end").datepicker('setStartDate', tanggal);
+    //     $(this).parsley().validate();
+    // });
+    
+    // $("#datepicker-autoclose-end").datepicker({
+    //     autoclose: !0,
+    // }).on('changeDate', function(e) {
+    //     // Revalidate the date field
+    //     var tanggal = new Date(e.date.valueOf());
+    //     console.log(tanggal);
+    //     $("#datepicker-autoclose-start").datepicker('setEndDate', tanggal);
+    //     $(this).parsley().validate();
+    // });
+    // $("#timepicker-start").timepicker({
+    //     showMeridian: false,
+    //     icons: {
+    //         up: "mdi mdi-chevron-up",
+    //         down: "mdi mdi-chevron-down"
+    //     }
+    // }).on('changeTime.timepicker',function(e){
+    //     var fulltime    = e.time.value;
+    //     var jam         = e.time.hours;
+    //     var menit       = e.time.minutes;
+    //     var time        = (jam*60) + menit;
+        
+    //     $("#timepicker-end").timepicker('setTime',fulltime);
+    //     $("#timepicker-end").data('min',time);
+    //     $("#timepicker-end").data('mintime',fulltime);
+    //     console.log(fulltime);
+    // });
+    // $("#timepicker-end").timepicker({
+    //     showMeridian: false,
+    //     maxHours : 24,
+    //     icons: {
+    //         up: "mdi mdi-chevron-up",
+    //         down: "mdi mdi-chevron-down"
+    //     }
+    // }).on('changeTime.timepicker',function(e){
+    //     var fulltime    = e.time.value;
+    //     var jam         = e.time.hours;
+    //     var menit       = e.time.minutes;
+    //     var time        = (jam*60) + menit;
+    //     var now         = $("#timepicker-end").data('min');
+    //     var oldtime     = $("#timepicker-end").data('mintime');
+        
+    //     console.log(time < now);
+    //     if (time < now) {
+    //         $("#timepicker-end").timepicker('setTime',oldtime);
+    //     }
+    // });
+
     form.parsley();
 
     // form.validate({

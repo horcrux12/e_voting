@@ -14,17 +14,14 @@ class M_pemilih_umum extends CI_Model {
         $draw = $postData['draw'];
         $start = $postData['start'];
         $rowperpage = $postData['length']; // Rows display per page
-        $columnIndex = $postData['order']; // Column index
-        // $columnIndex = $postData['order'][0]['column']; // Column index
-        $columnName = $postData['columns']; // Column name
-        // $columnSortOrder = $postData['order'][0]['dir']; // asc or desc
-        $data = array();
-        $search_filter = array();
-        $search_query = "";
-        $search = $postData['search']['value'];
+        $data               = array();
+        $search_filter      = array();
+        $search_query       = "";
+        $search             = $postData['search']['value'];
+
         if ($this->session->userdata('level_admin') == 1) {
-            $filter_kegiatan = $postData['filterKegiatan'];
-            $filter_tps = $postData['filterTps'];
+            $filter_kegiatan    = $postData['filterKegiatan'];
+            $filter_tps         = $postData['filterTps'];
         }
         
 
@@ -76,8 +73,38 @@ class M_pemilih_umum extends CI_Model {
         $this->db->join('user_bilik', 'data_pemilih_umum.id_bilik = user_bilik.id_bilik','left');
         if($search_query != '')
         $this->db->where($search_query);
-        foreach ($columnIndex as $key) {
-            $this->db->order_by($columnName[$key['column']]['data'], $key['dir']);
+        foreach ($postData['order'] as $order) {
+            if ($order['column'] == 0) {
+                $this->db->order_by('data_pemilih_umum.no_identitas', $order['dir']);
+            }
+            if ($order['column'] == 1) {
+                $this->db->order_by('data_pemilih_umum.no_kk', $order['dir']);
+            }
+            if ($order['column'] == 2) {
+                $this->db->order_by('data_pemilih_umum.nama', $order['dir']);
+            }
+            if ($order['column'] == 3) {
+                $this->db->order_by('data_pemilih_umum.gender', $order['dir']);
+            }
+            if ($order['column'] == 4) {
+                $this->db->order_by('data_pemilih_umum.tempat_lahir', $order['dir']);
+                $this->db->order_by('data_pemilih_umum.tanggal_lahir', $order['dir']);
+            }
+            if ($order['column'] == 5) {
+                $this->db->order_by('data_pemilih_umum.alamat', $order['dir']);
+            }
+            if ($order['column'] == 6) {
+                $this->db->order_by('data_pemilih_umum.no_urut', $order['dir']);
+            }
+            if ($order['column'] == 7) {
+                $this->db->order_by('admin_tps.nama', $order['dir']);
+            }
+            if ($order['column'] == 8) {
+                $this->db->order_by('user_bilik.no_bilik', $order['dir']);
+            }
+            if ($order['column'] == 9) {
+                $this->db->order_by('data_pemilih_umum.status', $order['dir']);
+            }
         }
         // $this->db->order_by($columnName, $columnSortOrder);
         $this->db->limit($rowperpage, $start);
@@ -178,5 +205,21 @@ class M_pemilih_umum extends CI_Model {
             $last_id = 0;
         }
         return $q->result_array();
+    }
+
+    function last_no_uruts($kegiatan, $tps){
+        $this->db->select('no_urut');
+        $this->db->from('data_pemilih_umum');
+        $this->db->where('id_kegiatan',$kegiatan);
+        $this->db->where('id_tps',$tps);
+        $this->db->order_by('no_urut','ASC');
+        $q = $this->db->get();
+        $data = $q->last_row();
+        if ($data != '') {
+            $last_id = $data->no_urut;
+        }else{
+            $last_id = 0;
+        }
+        return $last_id;
     }
 }

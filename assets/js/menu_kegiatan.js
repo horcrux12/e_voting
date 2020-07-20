@@ -34,7 +34,7 @@ $(document).ready(function(){
 			url: baseurl+'kegiatan/server-side',
 			data: function(data){
 				data.filterJenis = $('#filter_jenis_kegiatan').val();
-			}
+            }
 		},
         columns: [
             { data: 'nama_kegiatan' },
@@ -42,6 +42,7 @@ $(document).ready(function(){
             { data: 'start_date' },
             { data: 'end_date' },
             { data: 'jumlah_tps' },
+            { data: 'jumlah_pemilihan'},
             { data: 'nama_jenis' },
             { data: 'action', orderable : false },
         ]

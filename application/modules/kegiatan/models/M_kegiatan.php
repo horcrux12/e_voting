@@ -59,13 +59,14 @@ class M_kegiatan extends CI_Model {
 
 		foreach ($records as $field) {
             $row = array();
-            $row ['nama_kegiatan']  = $field['nama_kegiatan'];
-            $row ['alamat']         = $field['alamat'];
-            $row ['start_date']     = format_indo($field['start_date']);
-            $row ['end_date']       = format_indo($field['end_date']);
-            $row ['jumlah_tps']     = $field['jumlah_tps'];
-            $row ['nama_jenis']     = $field['nama_jenis'];
-            $row ['action']         = '<a title="Edit" class="btn btn-warning waves-effect waves-light btn-xs" style="margin-bottom:5px" href="'.base_url().'kegiatan/edit-kegiatan/'.$field['id_kegiatan'].'"><i class="fas fa-pencil-alt"></i></a>
+            $row ['nama_kegiatan']      = $field['nama_kegiatan'];
+            $row ['alamat']             = $field['alamat'];
+            $row ['start_date']         = format_indo($field['start_date']);
+            $row ['end_date']           = format_indo($field['end_date']);
+            $row ['jumlah_tps']         = $field['jumlah_tps'];
+            $row ['jumlah_pemilihan']   = $field['jumlah_pemilihan'];
+            $row ['nama_jenis']         = $field['nama_jenis'];
+            $row ['action']             = '<a title="Edit" class="btn btn-warning waves-effect waves-light btn-xs" style="margin-bottom:5px" href="'.base_url().'kegiatan/edit-kegiatan/'.$field['id_kegiatan'].'"><i class="fas fa-pencil-alt"></i></a>
 			<a title="Delete" class="btn btn-danger waves-effect waves-light btn-xs" onclick="return confirm(\'Anda yakin ingin menghapus Kegiatan ini?\')" style="margin-bottom:5px" href="'.base_url().'kegiatan/hapus-kegiatan/'.$field['id_kegiatan'].'"><i class="fas fa-trash"></i></a>';
             $data[] = $row;
         }
@@ -74,7 +75,8 @@ class M_kegiatan extends CI_Model {
             "draw" => intval($draw),
             "iTotalRecords" => $totalRecords,
             "iTotalDisplayRecords" => $totalRecordwithFilter,
-            "aaData" => $data
+            "aaData" => $data,
+            "pastData" => $postData
         );
 
         return $response;

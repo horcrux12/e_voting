@@ -29,15 +29,29 @@
                     <div class="p-4">
                         <form id="wizard-validation-form" action="<?php echo base_url()?>kandidat/update" method="POST" enctype="multipart/form-data">
                             <div class="form-group row">
-                                <label class="col-lg-2 control-label " for="kegiatan">Nama Kegiatan <span
+                                <label class="col-lg-2 control-label " for="kegiatan">Instansi <span
                                         class="text-danger">*</span></label>
                                 <div class="col-lg-10">
-                                    <select name="kegiatan" id="kegiatan" class="required form-control">
+                                    <select name="kegiatan" id="kegiatan" class="required form-control" required>
                                         <?php foreach ($data['kegiatan'] as $key) {?>
                                         <?php if ($key['id_kegiatan'] ==  $data['kadidat'][0]['id_kegiatan']) :?>
                                             <option value="<?php echo $key['id_kegiatan']?>" selected> <?php echo $key['nama_kegiatan']?></option>
                                         <?php else :?>
                                             <option value="<?php echo $key['id_kegiatan']?>"> <?php echo $key['nama_kegiatan']?></option>
+                                        <?php endif; } ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-2 control-label " for="kegiatan">Pemilihan<span
+                                        class="text-danger">*</span></label>
+                                <div class="col-lg-10">
+                                    <select name="pemilihan" id="pemilihan" class="required form-control" required>
+                                        <?php foreach ($data['pemilihan'] as $key) {?>
+                                        <?php if ($key['id_pemilihan'] ==  $data['kadidat'][0]['id_pemilihan']) :?>
+                                            <option value="<?php echo $key['id_pemilihan']?>" selected> <?php echo $key['nama_pemilihan']?></option>
+                                        <?php else :?>
+                                            <option value="<?php echo $key['id_pemilihan']?>"> <?php echo $key['nama_pemilihan']?></option>
                                         <?php endif; } ?>
                                     </select>
                                 </div>
@@ -69,17 +83,14 @@
                                         type="file" accept="image/jpeg,image/png" data-parsley-filemaxmegabytes="2"
                                         data-parsley-trigger="change"
                                         data-parsley-filemimetypes="image/jpeg, image/png">
-                                    <small>Foto Sebelumnya : <?php echo $data['kandidat'][0]['foto'] ?></small>
+                                    <input type="text" name="foto_sebelum" id="foto_sebelum" value="<?php echo base_url('/assets/images/uploads/kandidat/').$data['kandidat'][0]['foto']; ?>" hidden>
+                                    <div id="view_gambar" class="mt-2">
+                                        <small>Foto Sebelumnya : </small>
+                                        <img class="img-fluid d-block rounded" width="250" src="<?php echo base_url('/assets/images/uploads/kandidat/').$data['kandidat'][0]['foto']; ?>" title="<?php echo $data['kandidat'][0]['foto'] ?>" alt="<?php echo $data['kandidat'][0]['foto'] ?>"></img>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="form-group row">
-                                <label class="col-lg-2 control-label" for="nama_saksi">Nama Saksi <span
-                                        class="text-danger">*</span></label>
-                                <div class="col-lg-10">
-                                    <input class="form-control" id="nama_saksi" required="" name="nama_saksi"
-                                        type="text" value="<?php echo $data['kandidat'][0]['saksi'] ?>">
-                                </div>
-                            </div>
+                                            
                             <div class="form-group row">
                                 <div class="col-sm-12 mt-3">
                                     <div class="float-right">

@@ -68,7 +68,7 @@ $(document).ready(function() {
         if (id != '') {
             $.ajax({
                 type: 'POST',
-                url: baseurl+'pemilih_umum/getpemilih_umum/'+id,
+                url: baseurl+'pemilih_pelajar/getpemilih_pelajar/'+id,
                 dataType: 'JSON',
                 beforeSend: function(){
                     $("#loader").show();
@@ -93,6 +93,7 @@ $(document).ready(function() {
                 }
             })	
         }else{
+            $("#tps").val('');	
             $("#tps").attr('disabled',true);	
         }
         

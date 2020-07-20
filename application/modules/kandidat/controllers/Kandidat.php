@@ -50,8 +50,10 @@ class Kandidat extends MY_Controller {
 			<script src="'.base_url().'assets/libs/moment/moment.min.js"></script>';
 		$page_content["title"] 	= "Data Kandidat";
 
-		$data = $this->m_dinamic->getData('kegiatan')->result_array();
-		$page_content["data"] = $data;
+		$data["kegiatan"] 					= $this->m_dinamic->getData('kegiatan')->result_array();
+		$data["pemilihan"] 					= $this->m_dinamic->getData('pemilihan')->result_array();
+		$page_content["data"]["kegiatan"] 	= $data["kegiatan"];
+		$page_content["data"]["pemilihan"]	= $data["pemilihan"];
 
 		// echo "<pre>";
 		// print_r($data);
@@ -75,9 +77,15 @@ class Kandidat extends MY_Controller {
 			<!-- Init js-->
 			<script src="'.base_url().'assets/js/pages/form-validation-kandidat.init.js"></script>';
 
-		$page_content["title"] = "Tambah Data kandidat";
-		$data = $this->m_dinamic->getData('kegiatan')->result_array();
-		$page_content["data"] = $data;
+		$page_content["title"] 				= "Tambah Data kandidat";
+		$data["kegiatan"] 					= $this->m_dinamic->getData('kegiatan')->result_array();
+		$data["pemilihan"] 					= $this->m_dinamic->getData('pemilihan')->result_array();
+		$page_content["data"]["kegiatan"] 	= $data["kegiatan"];
+		$page_content["data"]["pemilihan"]	= $data["pemilihan"];
+
+		// echo "<pre>";
+		// print_r()
+		// echo "</pre>";
 		
 		$this->templates->pageTemplates($page_content);
 	}
@@ -98,28 +106,31 @@ class Kandidat extends MY_Controller {
 
 		$page_content["title"] = "Edit kandidat";
 		
-		$data_kandidat = $this->m_dinamic->getWhere('kandidat','id_kandidat',$id)->result_array();
-		$data_kegiatan = $this->m_dinamic->getData('kegiatan')->result_array();
+		$data_kandidat 	= $this->m_dinamic->getWhere('kandidat','id_kandidat',$id)->result_array();
+		$data_kegiatan 	= $this->m_dinamic->getData('kegiatan')->result_array();
+		$data_pemilihan	= $this->m_dinamic->getWhere('pemilihan','id_kegiatan',$data_kandidat[0]['id_kegiatan'])->result_array();
 
 		// echo "<pre>";
 		// print_r($data);
 		// echo "</pre>";
 		
-		$page_content["data"]["kandidat"] = $data_kandidat;
-		$page_content["data"]["kegiatan"] = $data_kegiatan;
+		$page_content["data"]["kandidat"] 	= $data_kandidat;
+		$page_content["data"]["kegiatan"] 	= $data_kegiatan;
+		$page_content["data"]["pemilihan"]	= $data_pemilihan;
 		
 		$this->templates->pageTemplates($page_content);
 	}
 
 	public function store(){
 		
-		$input = $this->input->post();
-		$last_kandidat = $this->m_kandidat->get_last_kandidat()+1;
+		$input 			= $this->input->post();
+		$last_kandidat 	= $this->m_kandidat->get_last_kandidat()+1;
+		$pemilihan 		= $this->m_dinamic->getWhere ('pemilihan','id_pemilihan',$input['pemilihan'])->result_array();
 
 		$nama_gambar = $last_kandidat."_".str_replace(" ","_",$input['nama_kandidat']);
 
 		$config['upload_path']          = './assets/images/uploads/kandidat/';
-		$config['allowed_types']        = 'gif|jpg|png';
+		$config['allowed_types']        = 'gif|jpeg|jpg|png';
 		$config['file_name']            = $nama_gambar;
 		$config['overwrite']			= true;
 		// $config['max_size']             = 1024; // 1MB
@@ -142,11 +153,16 @@ class Kandidat extends MY_Controller {
 			'no_urut'		=> $input['no_urut'],
 			'foto'			=> $gambar,
 			'nama_kandidat'	=> $input['nama_kandidat'],
-			'saksi'			=> $input['nama_saksi'],
-			'id_kegiatan'	=> $input['kegiatan']
+			'id_kegiatan'	=> $input['kegiatan'],
+			'id_pemilihan'	=> $input['pemilihan']
+		);
+
+		$data_pemilihan = array(
+			'jumlah_kandidat' => $pemilihan[0]['jumlah_kandidat'] + 1
 		);
 
 		$save_kandidat 		= $this->m_kandidat->store('kandidat',$data_kandidat);
+		$save_pemilihan		= $this->m_dinamic->update_data('id_pemilihan',$input['pemilihan'],$data_pemilihan,'pemilihan');
 
 		if ($save_kandidat) {
 			echo "<script>
@@ -175,7 +191,7 @@ class Kandidat extends MY_Controller {
 			}
 
 			$config['upload_path']          = './assets/images/uploads/kandidat/';
-			$config['allowed_types']        = 'gif|jpg|png';
+			$config['allowed_types']        = 'gif|jpeg|jpg|png';
 			$config['file_name']            = $nama_gambar;
 			$config['overwrite']			= true;
 			// $config['max_size']             = 1024; // 1MB
@@ -210,23 +226,23 @@ class Kandidat extends MY_Controller {
 			'no_urut'		=> $input['no_urut'],
 			'foto'			=> $gambar,
 			'nama_kandidat'	=> $input['nama_kandidat'],
-			'saksi'			=> $input['nama_saksi'],
-			'id_kegiatan'	=> $input['kegiatan']
+			'id_kegiatan'	=> $input['kegiatan'],
+			'id_pemilihan'	=> $input['pemilihan']
 		);
 
 		$input_kandidat = $this->m_dinamic->update_data('id_kandidat',$where,$data_kandidat,'kandidat');
 
-		// if ($input_kandidat) {
-		// 	echo "<script>
-		// 	alert('Data Berhasil diubah');
-		// 	window.location.href='".base_url('kandidat')."';
-		// 	</script>";
-		// }else{
-		// 	echo "<script>
-		// 	alert('Data Gagal diubah');
-		// 	window.history.back();
-		// 	</script>";
-		// }
+		if ($input_kandidat) {
+			echo "<script>
+			alert('Data Berhasil diubah');
+			window.location.href='".base_url('kandidat')."';
+			</script>";
+		}else{
+			echo "<script>
+			alert('Data Gagal diubah');
+			window.history.back();
+			</script>";
+		}
 	}
 
 	public function drop($id){
@@ -288,6 +304,17 @@ class Kandidat extends MY_Controller {
 				}
 			}
 		}
+	}
+
+	public function getpemilihan($id){
+		if ($id != 0) {
+			$data = $this->m_dinamic->getWhere ('pemilihan','id_kegiatan',$id)->result_array();
+		}else{
+			$data = $this->m_dinamic->getData ('pemilihan')->result_array();
+		}
+		
+
+		echo json_encode($data);
 	}
 	
 }

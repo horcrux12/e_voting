@@ -44,6 +44,7 @@ class Pemilih_pelajar extends MY_Controller {
 		$page_content["js"] 	= '
 			<script src="'.base_url().'assets/libs/datatables/jquery.dataTables.min.js"></script>
 			<script src="'.base_url().'assets/libs/datatables/dataTables.bootstrap4.min.js"></script>
+			<script src="'.base_url().'assets/libs/parsleyjs/parsley.min.js"></script>
 			<!-- Datatables init -->
 			<script src="'.base_url().'assets/js/pages/datatables.init.js"></script>
 			<script src="'.base_url().'assets/js/menu_pemilih_pelajar.js"></script>
@@ -53,9 +54,13 @@ class Pemilih_pelajar extends MY_Controller {
 		}else{
 			$page_content["title"] 	= "Data Pemilih";
 		}
-
-		$data_kegiatan = $this->m_dinamic->getWhere('kegiatan','id_jenis',2)->result_array();
-		$data_tps = $this->m_pemilih_pelajar->get_tps_pelajar()->result_array();
+		if ($this->session->userdata('level_admin') == 1) {
+			$data_kegiatan	= $this->m_dinamic->getWhereSort('kegiatan','id_jenis',2,'nama_kegiatan','ASC')->result_array();
+			$data_tps 		= $this->m_pemilih_pelajar->get_tps_pelajar()->result_array();
+		}else{
+			$data_kegiatan	= $this->m_dinamic->getWhere('kegiatan','id_kegiatan',$this->session->userdata('id_kegiatan'))->result_array();
+			$data_tps 		= $this->m_dinamic->getWhere('admin_tps','id_tps',$this->session->userdata('id_login'))->result_array();
+		}
 		
 		$page_content["data"]["kegiatan"] = $data_kegiatan;
 		$page_content["data"]["tps"] = $data_tps;
@@ -65,7 +70,7 @@ class Pemilih_pelajar extends MY_Controller {
 
 	public function get_pemilih_pelajar($id){
 		if ($id != 0) {
-			$data = $this->m_dinamic->getWhere ('admin_tps','id_kegiatan',$id)->result_array();
+			$data = $this->m_dinamic->getWhereSort ('admin_tps','id_kegiatan',$id,'nama','ASC')->result_array();
 		}else{
 			$data = $this->m_pemilih_pelajar->get_tps_pelajar ()->result_array();
 		}
@@ -144,7 +149,7 @@ class Pemilih_pelajar extends MY_Controller {
 		
 		$input = $this->input->post();
 
-		$last_no_urut 	= $this->m_pemilih_pelajar->last_no_urut( $input['kegiatan'], $input['tps']);
+		$last_no_urut 	= $this->m_pemilih_pelajar->last_no_urut($input['kegiatan'], $input['tps']);
 		$jumlah			= count($last_no_urut);
 		if ($jumlah == 0) {
 			$no_urut = 1;

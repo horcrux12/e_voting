@@ -26,6 +26,14 @@ class M_tps extends CI_Model {
         if ($search != '') {
             $search_filter[] = " ( 
             admin_tps.lokasi like '%".$search."%' or
+            admin_tps.ketua like '%".$search."%' or
+            admin_tps.anggota_staff_1 like '%".$search."%' or
+            admin_tps.anggota_staff_2 like '%".$search."%' or
+            admin_tps.anggota_staff_3 like '%".$search."%' or
+            admin_tps.anggota_staff_4 like '%".$search."%' or
+            admin_tps.anggota_staff_5 like '%".$search."%' or
+            admin_tps.anggota_staff_6 like '%".$search."%' or
+            admin_tps.anggota_staff_7 like '%".$search."%' or
             admin_tps.username like '%".$search."%') ";
         }
         if ($filter_kegiatan) {
@@ -64,6 +72,7 @@ class M_tps extends CI_Model {
             $row ['nama']           = $field['nama'];
             $row ['lokasi']         = $field['lokasi'];
             $row ['username']       = $field['username'];
+            $row ['panitia']        = $field['ketua'].' (ketua) <br>'.$field['anggota_staff_1'].'<br>'.$field['anggota_staff_2'].'<br>'.$field['anggota_staff_3'].'<br>'.$field['anggota_staff_4'].'<br>'.$field['anggota_staff_5'].'<br>'.$field['anggota_staff_6'].'<br>'.$field['anggota_staff_7'];
             $row ['no_tps']         = $field['no_tps'];
             $row ['jumlah_bilik']   = $field['jumlah_bilik'];
             $row ['action']         = '<a title="Edit" class="btn btn-warning waves-effect waves-light btn-xs" style="margin-bottom:5px" href="'.base_url().'tps/edit-tps/'.$field['id_tps'].'"><i class="fas fa-pencil-alt"></i></a>

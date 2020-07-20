@@ -48,6 +48,7 @@
                             <th>Waktu Mulai</th>
                             <th>Waktu Berakhir</th>
                             <th>Jumlah TPS</th>
+                            <th>Jumlah Pemilihan</th>
                             <th>Jenis Kegiatan</th>
                             <th>Action</th>
                         </tr>

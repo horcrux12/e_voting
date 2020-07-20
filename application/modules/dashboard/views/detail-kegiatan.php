@@ -19,15 +19,24 @@
                 <div class="col-lg-12 mt-2">
                     <h4 class="header-title">Detail Kegiatan</h4>
                     <p class="sub-header">
-                        <?php echo $data[0]['nama'];?>
+                        <?php echo $data['tps'][0]['nama'];?>
                     </p>
 
                     <dl class="dl-horizontal row">
-                        <dt class="col-sm-3">Nama Kegiatan</dt>
-                        <dd class="col-sm-9"><?php echo $data[0]['nama_kegiatan']; ?></dd>
+                        <dt class="col-sm-3">Nama Instansi <span class="float-right">:</span></dt>
+                        <dd class="col-sm-9"> <?php echo $data['tps'][0]['nama_kegiatan']; ?></dd>
 
-                        <dt class="col-sm-3">Waktu Pelaksanaan</dt>
-                        <dd class="col-sm-9"><?php echo format_indo($data[0]['start_date']).' s/d '.format_indo($data[0]['end_date']);?></dd>
+                        <dt class="col-sm-3">Waktu Pelaksanaan <span class="float-right">:</span></dt>
+                        <dd class="col-sm-9"><?php echo format_indo($data['tps'][0]['start_date']).' s/d '.format_indo($data['tps'][0]['end_date']);?></dd>
+
+                        <dt class="col-sm-3">Daftar Pemilihan <span class="float-right">:</span></dt>
+                        <dd class="col-sm-9">
+                            <ol class="pl-3" >
+                                <?php foreach ($data['pemilihan'] as $key) {
+                                    echo "<li> ".$key['nama_pemilihan']."</li>";
+                                }?>
+                            </ol>
+                        </dd>
 
                     </dl>
 

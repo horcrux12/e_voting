@@ -11,6 +11,15 @@
 			$this->db->from($table);
 			$query = $this->db->get();
 			return $query;
+		}
+		
+		function getDataSort ($table,$by,$type)
+		{
+			$this->db->select('*');
+			$this->db->from($table);
+			$this->db->order_by($by,$type);
+			$query = $this->db->get();
+			return $query;
         }
         
 		function getDataDESC ($table,$by)
@@ -32,6 +41,15 @@
 			return $query->result();
 		}
 
+		function getWhereSort ($table,$field,$where,$by,$type){
+			$this->db->select('*');
+			$this->db->from($table);
+			$this->db->where($field,$where);
+			$this->db->order_by($by,$type);
+			$query = $this->db->get();
+			return $query;
+		}
+		
 		function getWhere ($table,$field,$where){
 			$this->db->where($field,$where);
 			$query = $this->db->get($table);
@@ -40,7 +58,11 @@
 
 		function input_data($data,$table){
             $this->db->insert($table, $data);
-    	}
+		}
+		
+		function store_batch($tabel, $data){
+			return $this->db->insert_batch($tabel, $data);
+		}
 
     	function update_data($field,$where,$data,$table){
             $this->db->where($field,$where);

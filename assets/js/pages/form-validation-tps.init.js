@@ -9,84 +9,34 @@ $(document).ready(function() {
         }
     });
 
-    $("form").parsley();
+    $('#kegiatan').on('change',function(){
+        if ($(this).val() == '') {
+            $('#no_tps').attr('disabled',true);
+            console.log('kosong');
+        }else{
+            $('#no_tps').attr('disabled',false);
+            console.log('isi');
+        }
+    });
 
-    let cek = $("#id_tps").val();
-    if (cek !=undefined ) {
-        let last_id = $("#kegiatan").find('option:selected').val();
-        window.ParsleyValidator.addValidator("checknotps",{
-            validateString: function(value)
-            {
-                return $.ajax({
-                    url: baseurl+"tps/check-no/"+last_id,
-                    method: "POST",
-                    data: {notps:value, id:cek},
-                    dataType: "JSON",
-                    success: function(data){
-                        return true;
-                    }
-                })
-            }
-        });
-        
-        $("#kegiatan").on("change",function(){
-            let id = $(this).val();
-            if (id != last_id) {
-                console.log("gak sama");
-                window.ParsleyValidator.addValidator("checknotps",{
-                    validateString: function(value)
-                    {
-                        return $.ajax({
-                            url: baseurl+"tps/check-no/"+id,
-                            method: "POST",
-                            data: {notps:value},
-                            dataType: "JSON",
-                            success: function(data){
-                                return true;
-                            }
-                        })
-                    }
-                });
-            }else{
-                console.log("sama");
-                window.ParsleyValidator.addValidator("checknotps",{
-                    validateString: function(value)
-                    {
-                        return $.ajax({
-                            url: baseurl+"tps/check-no/"+id,
-                            method: "POST",
-                            data: {notps:value, id:cek},
-                            dataType: "JSON",
-                            success: function(data){
-                                return true;
-                            }
-                        })
-                    }
-                });
-            }
-            
-        });
-    }else{
-        $("#kegiatan").on("change",function(){
-            let id = $(this).val();
-            window.ParsleyValidator.addValidator("checknotps",{
-                validateString: function(value)
-                {
-                    return $.ajax({
-                        url: baseurl+"tps/check-no/"+id,
-                        method: "POST",
-                        data: {notps:value},
-                        dataType: "JSON",
-                        success: function(data){
-                            return true;
-                        }
-                    })
+    window.ParsleyValidator.addValidator("checknotps",{
+        validateString: function(value)
+        {
+            return $.ajax({
+                url: baseurl+"tps/check-no/"+$('#kegiatan').val(),
+                method: "POST",
+                data: {
+                    notps :  value, 
+                    id : $("#id_tps").val()
+                },
+                dataType: "JSON",
+                success: function(data){
+                    return true;
                 }
-            });
-        });
-    }
+            })
+        }
+    });
 
-    // console.log($("#id_tps").val());
     window.ParsleyValidator.addValidator("checkusername",{
         validateString: function(value)
         {
@@ -115,4 +65,6 @@ $(document).ready(function() {
             
         }
     });
+
+    $("form").parsley();
 });

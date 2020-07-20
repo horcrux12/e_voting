@@ -3,99 +3,13 @@ $(document).ready(function() {
     $('#checkbox2').click(function(){
         if($(this).prop("checked") == true){
             $('#password').attr('type','text');
+            // console.log('cek');
         }
         else if($(this).prop("checked") == false){
-            $('#password').attr('type','password')
+            $('#password').attr('type','password');
         }
     });
 
-    $("form").parsley();
-
-    let cek = $("#id_bilik").val();
-    if (cek !=undefined ) {
-        let last_id = $("#tps").find('option:selected').val();
-        window.ParsleyValidator.addValidator("checknobilik",{
-            validateString: function(value)
-            {
-                return $.ajax({
-                    url: baseurl+"bilik/check-no/"+last_id,
-                    method: "POST",
-                    data: {nobilik:value, id:cek},
-                    dataType: "JSON",
-                    success: function(data){
-                        return true;
-                    }
-                })
-            }
-        });
-        
-        $("#kegiatan").on("change",function(){
-            let id = $(this).val();
-            get_tps_form(id);
-            $("#tps").val('');
-        });
-        $("#tps").on("change",function(){
-            $("#no_bilik").attr('readonly',false);
-            let id_tps = $(this).val();
-            if (id_tps != last_id) {
-                window.ParsleyValidator.addValidator("checknobilik",{
-                    validateString: function(value)
-                    {
-                        return $.ajax({
-                            url: baseurl+"bilik/check-no/"+id_tps,
-                            method: "POST",
-                            data: {nobilik:value},
-                            dataType: "JSON",
-                            success: function(data){
-                                return true;
-                            }
-                        })
-                    }
-                });
-            }else{
-                window.ParsleyValidator.addValidator("checknobilik",{
-                    validateString: function(value)
-                    {
-                        return $.ajax({
-                            url: baseurl+"bilik/check-no/"+id_tps,
-                            method: "POST",
-                            data: {nobilik:value, id:cek},
-                            dataType: "JSON",
-                            success: function(data){
-                                return true;
-                            }
-                        })
-                    }
-                });
-            }
-        })
-    }else{
-        $("#kegiatan").on("change",function(){
-            let id = $(this).val();
-            get_tps_form(id);
-            $("#tps").val('');
-            $("#tps").on("change",function(){
-                $("#no_bilik").attr('readonly',false);
-                let id_tps = $(this).val();
-                window.ParsleyValidator.addValidator("checknobilik",{
-                    validateString: function(value)
-                    {
-                        return $.ajax({
-                            url: baseurl+"bilik/check-no/"+id_tps,
-                            method: "POST",
-                            data: {nobilik:value},
-                            dataType: "JSON",
-                            success: function(data){
-                                return true;
-                            }
-                        })
-                    }
-                });
-            }) 
-        });
-    }
-
-    // console.log($("#id_tps").val());
     window.ParsleyValidator.addValidator("checkusername",{
         validateString: function(value)
         {
@@ -124,6 +38,41 @@ $(document).ready(function() {
             
         }
     });
+
+    window.ParsleyValidator.addValidator("checknobilik",{
+        validateString: function(value)
+        {
+            return $.ajax({
+                url: baseurl+"bilik/check-no/"+$("#tps").val(),
+                method: "POST",
+                data: {
+                    nobilik:value, 
+                    id:$("#id_bilik").val()
+                },
+                dataType: "JSON",
+                success: function(data){
+                    return true;
+                }
+            })
+        }
+    });
+
+    $("form").parsley();
+
+    $("#kegiatan").on("change",function(){
+        let id = $(this).val();
+        get_tps_form(id);
+        $("#tps").val('');
+    });
+
+    $("#tps").on("change",function(){
+        if ($(this).val() != '') {
+            $("#no_bilik").attr('readonly',false);
+        }else{
+            $("#no_bilik").attr('readonly',true);
+        }
+    });
+    
 
     function get_tps_form(id){
         if (id != '') {

@@ -11,20 +11,32 @@ class Login extends MX_Controller {
 
 	public function index()
 	{
+        if (isset($this->session->userdata['logged'])) {
+            redirect('dashboard');
+        }
         $this->load->view('choose_login');
     }
 
     public function login_super(){
+        if (isset($this->session->userdata['logged'])) {
+            redirect('dashboard');
+        }
         $data['data_level'] = 1;
         $this->load->view('login_super',$data);
     }
 
     public function login_tps(){
+        if (isset($this->session->userdata['logged'])) {
+            redirect('dashboard');
+        }
         $data['data_level'] = 2;
         $this->load->view('login_super',$data);
     }
 
     public function login_bilik(){
+        if (isset($this->session->userdata['logged'])) {
+            redirect('dashboard');
+        }
         $data['data_level'] = 3;
         $this->load->view('login_super',$data);
     }
@@ -42,7 +54,7 @@ class Login extends MX_Controller {
                 $data_session = [
                     'id_login' => $response[0]['id_admin'],
                     'nama' => $response[0]['nama'],
-                    'level_admin' => $response[0]['level'],
+                    'level_admin' => 1,
                     'logged' => 1
                 ];
                 
@@ -75,7 +87,7 @@ class Login extends MX_Controller {
                     'start_date'        => $response[0]['start_date'],
                     'end_date'          => $response[0]['end_date'],
                     'lokasi'            => $response[0]['lokasi'],
-                    'level_admin'       => $response[0]['level'],
+                    'level_admin'       => 2,
                     'logged'            => 1
                 ];
                 
@@ -142,6 +154,6 @@ class Login extends MX_Controller {
     public function logout()
     {
         $this->session->sess_destroy();
-		redirect(base_url('login'));
+		redirect('login');
     }
 }

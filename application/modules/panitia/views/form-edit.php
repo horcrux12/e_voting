@@ -29,7 +29,7 @@
                     <div class="p-4">
                         <form role="form" data-parsley-validate novalidate action="<?php echo base_url()?>panitia/update" method="POST">
                             <div class="form-group row">
-                                <label for="nama_kegiatan" class="col-sm-3 form-control-label">Nama kegiatan<span class="text-danger">*</span></label>
+                                <label for="nama_kegiatan" class="col-sm-3 form-control-label">Nama Instansi<span class="text-danger">*</span></label>
                                 <div class="col-sm-9">
                                     <input type="text" required data-parsley-minlength="6" class="form-control" id="nama_kegiatan" name="nama_kegiatan" value="<?php echo $data['kegiatan'][0]['nama_kegiatan']?>" readonly>
                                 </div>

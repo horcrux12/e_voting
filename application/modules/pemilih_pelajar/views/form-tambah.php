@@ -102,12 +102,12 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-lg-2 control-label " for="kegiatan">Nama Kegiatan <span
+                    <label class="col-lg-2 control-label " for="kegiatan">Instansi <span
                             class="text-danger">*</span></label>
                     <div class="col-lg-10">
                         <?php if ($this->session->userdata('level_admin') == 1) :?>
                             <select name="kegiatan" id="kegiatan" class="form-control" required="">
-                                <option value="">Pilih Kegiatan</option>
+                                <option value="">Pilih Instansi</option>
                                 <?php foreach ($data['kegiatan'] as $key) {?>
                                     <option value="<?php echo $key['id_kegiatan']?>"><?php echo $key['nama_kegiatan']?></option>
                                 <?php } ?>
@@ -115,7 +115,7 @@
                         <?php else: ?>
                             <select name="kegiatan2" id="kegiatan2" class="form-control" required="" disabled>
                                 <?php foreach ($data['kegiatan'] as $key) {?>
-                                    <option value="<?php echo $key['id_kegiatan']?>"><?php echo $key['nama_kegiatan']?></option>
+                                    <option value="<?php echo $key['id_kegiatan'] ?>"><?php echo $key['nama_kegiatan']?></option>
                                 <?php } ?>
                             </select>
                             <input type="text" name="kegiatan" value="<?php echo $data['kegiatan'][0]['id_kegiatan']?>" hidden>

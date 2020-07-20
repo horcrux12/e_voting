@@ -1,4 +1,9 @@
 $(document).ready(function(){
+
+    'use strict'
+
+    $('#import').parsley();
+
     $("#shown").on('click',function() {
         var $pwd = $("#inputPassword");
         if ($pwd.attr('type') === 'password') {
@@ -42,7 +47,7 @@ $(document).ready(function(){
             { data: 'no_kk' },
             { data: 'nama' },
             { data: 'gender'},
-            { data: 'ttl', orderable : false},
+            { data: 'ttl'},
             { data: 'alamat'},
             { data: 'no_urut'},
             { data: 'nama_tps'},
@@ -119,6 +124,52 @@ $(document).ready(function(){
                     
                 }
             })	
+        }
+        
+    }
+
+    $("#kegiatan").on("change",function(){
+        let id_kegiatan = $(this).val();
+        get_tps_form(id_kegiatan);
+    });
+    
+
+    function get_tps_form(id){
+        if (id != '') {
+            $.ajax({
+                type: 'POST',
+                url: baseurl+'pemilih_umum/getpemilih_umum/'+id,
+                dataType: 'JSON',
+                beforeSend: function(){
+                    $("#loader").show();
+                    $("#tps").attr('disabled',true);
+                    $("#btn-import").attr('disabled',true);
+                },
+                success: function(params) {
+                    $("#loader").hide();
+                    var drp_down = '';
+                    if (params.length > 0) {
+                        drp_down += '<option value="">Pilih TPS</option>';
+                        for (let i = 0; i < params.length; i++) {
+                            drp_down += '<option value="'+params[i].id_tps+'">'+params[i].nama+'</option>';
+                        }
+                        $('#tps').html(drp_down);
+                        $("#tps").attr('disabled',false);
+                        $("#btn-import").attr('disabled',false);
+
+                    }else{
+                        drp_down += '<option value="">Tidak Ada TPS</option>';
+                        $('#tps').html(drp_down);
+                        $("#tps").attr('disabled',true);
+                        $("#btn-import").attr('disabled',true);
+
+                    }
+                    
+                }
+            })	
+        }else{
+            $("#tps").val('');	
+            $("#tps").attr('disabled',true);	
         }
         
     }

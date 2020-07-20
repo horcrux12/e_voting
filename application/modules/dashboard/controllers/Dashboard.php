@@ -31,7 +31,12 @@ class Dashboard extends MY_Controller {
 			$page_content["page"] = 'dashboard/v_dashboard';
 		}
 		$page_content["css"] = '
-			<link href="'.base_url().'assets/libs/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">';
+			<link href="'.base_url().'assets/libs/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+			<style>
+				.disabled{
+					cursor: not-allowed;
+				}
+			</style>';
 		$page_content["js"] = '
 			<script src="'.base_url().'assets/libs/flot-charts/jquery.flot.js"></script>
 			<script src="'.base_url().'assets/libs/flot-charts/jquery.flot.time.js"></script>
@@ -42,7 +47,8 @@ class Dashboard extends MY_Controller {
 			<script src="'.base_url().'assets/libs/flot-charts/jquery.flot.selection.js"></script>
 			<script src="'.base_url().'assets/libs/moment/moment.min.js"></script>
 			<script src="'.base_url().'assets/libs/bootstrap-daterangepicker/daterangepicker.js"></script>
-			<script src="'.base_url().'assets/js/pages/dashboard_2.init.js"></script>';
+			<script src="'.base_url().'assets/js/pages/dashboard_2.init.js"></script>
+			<script src="'.base_url().'assets/js/dashboard.js"></script>';
 		$page_content["title"] = "Dashboard";
 		
 		if ($this->session->userdata('level_admin') == 1) {
@@ -56,25 +62,41 @@ class Dashboard extends MY_Controller {
 				$jumlah_pemilih			= $this->m_dashboard->get_tps_pelajar($this->session->userdata('id_login'));
 				$jumlah_belum_memilih	= $this->m_dashboard->get_tps_free_pelajar($this->session->userdata('id_login'));
 			}
-			$bilik	= $this->m_dashboard->get_bilik($this->session->userdata('id_login'))->result_array();
+			$bilik		= $this->m_dashboard->get_bilik($this->session->userdata('id_login'))->result_array();
+			$kegiatan	= $this->m_dinamic->getWhere ('kegiatan','id_kegiatan',$this->session->userdata('id_kegiatan'))->result_array();
 			
 			$page_content["data"]['pemilih'] 		= $jumlah_pemilih;
 			$page_content["data"]['belum_memilih'] 	= $jumlah_belum_memilih;
 			$page_content["data"]['bilik']		 	= $bilik;
+			$page_content["data"]['kegiatan']		= $kegiatan[0];
 		}
 		
 		$this->templates->pageTemplates($page_content);
 	}
 
 	public function detail(){
+		if ($this->session->userdata('level_admin') != 2) {
+            show_404();
+        }
 		$page_content["page"] 	= 'dashboard/detail-kegiatan';
 		$page_content["css"] 	= '';
 		$page_content["js"] 	= '';
-		$page_content["title"] 	= "Dashboard";
+		$page_content["title"] 	= "Detail Kegiatan";
 
-		$data = $this->m_dashboard->get_tps_data($this->session->userdata('id_login'))->result_array();
-		$page_content["data"] 	= $data;
+		$data_tps 			= $this->m_dashboard->get_tps_data($this->session->userdata('id_login'))->result_array();
+		$data_pemilihan 	= $this->m_dinamic->getWhere ('pemilihan','id_kegiatan',$data_tps[0]['id_kegiatan'])->result_array();
 		
+		$page_content["data"]["tps"] 		= $data_tps;
+		$page_content["data"]["pemilihan"] 	= $data_pemilihan;
+		
+		// print_r($data_pemilihan);
+
 		$this->templates->pageTemplates($page_content);
+	}
+
+	public function limit(){
+		$data['bilik'] = $this->m_dinamic->getWhere ('user_bilik','id_tps',$this->session->userdata('id_login'))->result_array();
+		$data['kegiatan'] = $this->m_dinamic->getWhere ('kegiatan','id_kegiatan',$this->session->userdata('id_kegiatan'))->result_array();
+		echo json_encode($data);
 	}
 }

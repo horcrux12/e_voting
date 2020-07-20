@@ -18,13 +18,14 @@ class M_pemilih_pelajar extends CI_Model {
         // $columnIndex = $postData['order'][0]['column']; // Column index
         $columnName = $postData['columns']; // Column name
         // $columnSortOrder = $postData['order'][0]['dir']; // asc or desc
-        $data = array();
-        $search_filter = array();
-        $search_query = "";
-        $search = $postData['search']['value'];
+        $data                   = array();
+        $search_filter          = array();
+        $search_query           = "";
+        $search                 = $postData['search']['value'];
+        
         if ($this->session->userdata('level_admin') == 1) {
-            $filter_kegiatan = $postData['filterKegiatan'];
-            $filter_tps = $postData['filterTps'];
+            $filter_kegiatan    = $postData['filterKegiatan'];
+            $filter_tps         = $postData['filterTps'];
         }
         
 
@@ -41,7 +42,7 @@ class M_pemilih_pelajar extends CI_Model {
             $search_filter[] = " data_pemilih_pelajar.id_kegiatan='".$filter_kegiatan."'";
             }
             if ($filter_tps) {
-                $search_filter[] = " data_pemilih_pelajar.id_tps='".$filter_tps."'";
+                $search_filter[] = "data_pemilih_pelajar.id_tps='".$filter_tps."'";
             } 
         }if ($this->session->userdata('level_admin') == 2) {
             $search_filter[] = " data_pemilih_pelajar.id_tps='".$this->session->userdata('id_login')."'";
@@ -73,8 +74,41 @@ class M_pemilih_pelajar extends CI_Model {
         $this->db->join('user_bilik', 'data_pemilih_pelajar.id_bilik = user_bilik.id_bilik','left');
         if($search_query != '')
         $this->db->where($search_query);
-        foreach ($columnIndex as $key) {
-            $this->db->order_by($columnName[$key['column']]['data'], $key['dir']);
+        foreach ($postData['order'] as $order) {
+            if ($order['column'] == 0) {
+                $this->db->order_by('data_pemilih_pelajar.no_identitas', $order['dir']);
+            }
+            if ($order['column'] == 1) {
+                $this->db->order_by('data_pemilih_pelajar.nama', $order['dir']);
+            }
+            if ($order['column'] == 2) {
+                $this->db->order_by('data_pemilih_pelajar.gender', $order['dir']);
+            }
+            if ($order['column'] == 3) {
+                $this->db->order_by('data_pemilih_pelajar.tempat_lahir', $order['dir']);
+                $this->db->order_by('data_pemilih_pelajar.tanggal_lahir', $order['dir']);
+            }
+            if ($order['column'] == 4) {
+                $this->db->order_by('data_pemilih_pelajar.asal_sekolah', $order['dir']);
+            }
+            if ($order['column'] == 5) {
+                $this->db->order_by('data_pemilih_pelajar.kelas_fakultas', $order['dir']);
+            }
+            if ($order['column'] == 6) {
+                $this->db->order_by('data_pemilih_pelajar.jurusan', $order['dir']);
+            }
+            if ($order['column'] == 7) {
+                $this->db->order_by('data_pemilih_pelajar.no_urut', $order['dir']);
+            }
+            if ($order['column'] == 8) {
+                $this->db->order_by('admin_tps.nama', $order['dir']);
+            }
+            if ($order['column'] == 9) {
+                $this->db->order_by('user_bilik.no_bilik', $order['dir']);
+            }
+            if ($order['column'] == 10) {
+                $this->db->order_by('data_pemilih_pelajar.status', $order['dir']);
+            }
         }
         // $this->db->order_by($columnName, $columnSortOrder);
         $this->db->limit($rowperpage, $start);
@@ -169,13 +203,29 @@ class M_pemilih_pelajar extends CI_Model {
         $this->db->where('id_tps',$tps);
         $this->db->order_by('no_urut','DESC');
         $q = $this->db->get();
+        // $data = $q->last_row();
+        // if ($data != '') {
+        //     $last_id = $data->no_urut;
+        // }else{
+        //     $last_id = 0;
+        // }
+        return $q->result_array();
+    }
+
+    function last_no_uruts($kegiatan, $tps){
+        $this->db->select('no_urut');
+        $this->db->from('data_pemilih_pelajar');
+        $this->db->where('id_kegiatan',$kegiatan);
+        $this->db->where('id_tps',$tps);
+        $this->db->order_by('no_urut','ASC');
+        $q = $this->db->get();
         $data = $q->last_row();
         if ($data != '') {
             $last_id = $data->no_urut;
         }else{
             $last_id = 0;
         }
-        return $q->result_array();
+        return $last_id;
     }
 
     function get_kegiatan_now(){

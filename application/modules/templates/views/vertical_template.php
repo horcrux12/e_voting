@@ -11,6 +11,9 @@
     <meta content="Responsive bootstrap 4 admin template" name="description" />
     <meta content="Coderthemes" name="author" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="expires" content="0">
+    <meta http-equiv="Cache-control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
     <!-- App favicon -->
     <link rel="shortcut icon" href="<?php echo base_url();?>assets/images/images/logo-pemilu.jpg">
 
@@ -85,7 +88,7 @@
 
             <!-- LOGO -->
             <div class="logo-box">
-                <a href="index.html" class="logo text-center">
+                <a href="<?php echo base_url()?>dashboard" class="logo text-center">
                     <span class="logo-lg">
                         <img src="<?php echo base_url();?>assets/images/logo-light.png" alt="" height="18">
                         <!-- <span class="logo-lg-text-light">Zircos</span> -->
@@ -134,7 +137,7 @@
                             <ul class="nav-second-level" aria-expanded="false">
 
                                 <li><a href="<?php echo base_url();?>kegiatan">Data Kegiatan</a></li>
-                                <li><a href="javascript: void(0);">Data Pemilihan</a></li>
+                                <li><a href="<?php echo base_url();?>pemilihan">Data Pemilihan</a></li>
                             </ul>
                         </li>
                         <li>
@@ -146,7 +149,7 @@
                             <ul class="nav-second-level" aria-expanded="false">
 
                                 <li><a href="<?php echo base_url();?>tps">Data TPS</a></li>
-                                <li><a href="<?php echo base_url();?>panitia">Data Penitia</a></li>
+                                <li><a href="<?php echo base_url();?>panitia">Data Panitia</a></li>
                             </ul>
                         </li>
                         <li>

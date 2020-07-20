@@ -41,6 +41,7 @@ $(document).ready(function(){
             { data: 'nama' },
             { data: 'lokasi' },
             { data: 'username' },
+            { data: 'panitia', orderable : false  },
             { data: 'no_tps' },
             { data: 'jumlah_bilik' },
             { data: 'action', orderable : false },

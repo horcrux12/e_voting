@@ -23,14 +23,18 @@ class M_kandidat extends CI_Model {
         $search_query = "";
         $search = $postData['search']['value'];
         $filter_kegiatan = $postData['filterKegiatan'];
+        $filter_pemilihan = $postData['filterPemilihan'];
 
         if ($search != '') {
             $search_filter[] = " ( 
-            kandidat.nama_kandidat like '%".$search."%' or
-            kandidat.saksi like '%".$search."%') ";
+            kandidat.nama_kandidat like '%".$search."%'";
         }
         if ($filter_kegiatan) {
             $search_filter[] = " kandidat.id_kegiatan='".$filter_kegiatan."'";
+        }
+
+        if ($filter_pemilihan) {
+            $search_filter[] = " kandidat.id_pemilihan='".$filter_pemilihan."'";
         }
 
         if (count($search_filter) > 0) {
@@ -50,13 +54,28 @@ class M_kandidat extends CI_Model {
         $totalRecordwithFilter = $records[0]->allcount;
         
         // Get data
-        $this->db->select('kandidat.*, kegiatan.id_kegiatan AS id_kegiatan, kegiatan.nama_kegiatan AS nama_kegiatan');
+        $this->db->select('kandidat.*, kegiatan.id_kegiatan AS id_kegiatan, kegiatan.nama_kegiatan AS nama_kegiatan, pemilihan.id_pemilihan AS id_pemilihan, pemilihan.nama_pemilihan AS nama_pemilihan');
         $this->db->from('kandidat');
         $this->db->join('kegiatan', 'kandidat.id_kegiatan = kegiatan.id_kegiatan');
+        $this->db->join('pemilihan', 'kandidat.id_pemilihan = pemilihan.id_pemilihan');
         if($search_query != '')
         $this->db->where($search_query);
-        foreach ($columnIndex as $key) {
-            $this->db->order_by($columnName[$key['column']]['data'], $key['dir']);
+        foreach ($postData['order'] as $order) {
+            if ($order['column'] == 0) {
+                $this->db->order_by('kegiatan.nama_kegiatan', $order['dir']);
+            }
+            if ($order['column'] == 1) {
+                $this->db->order_by('pemilihan.nama_pemilihan', $order['dir']);
+            }
+            if ($order['column'] == 2) {
+                $this->db->order_by('kandidat.nama_kandidat', $order['dir']);
+            }
+            if ($order['column'] == 3) {
+                $this->db->order_by('pemilihan.no_urut', $order['dir']);
+            }
+            if ($order['column'] == 5) {
+                $this->db->order_by('kandidat.hasil', $order['dir']);
+            }
         }
         // $this->db->order_by($columnName, $columnSortOrder);
         $this->db->limit($rowperpage, $start);
@@ -65,9 +84,10 @@ class M_kandidat extends CI_Model {
 		foreach ($records as $field) {
             $row = array();
             $row ['nama_kegiatan']  = $field['nama_kegiatan'];
+            $row ['nama_pemilihan'] = $field['nama_pemilihan'];
             $row ['nama_kandidat']  = $field['nama_kandidat'];
+            $row ['no_urut']        = $field['no_urut'];
             $row ['foto']           = '<img src="'.base_url().'assets/images/uploads/kandidat/'.$field['foto'].'" alt="'.$field['nama_kandidat'].'" class="img-fluid d-block rounded" width="150">';
-            $row ['saksi']          = $field['saksi'];
             $row ['hasil']          = $field['hasil'];
             $row ['action']         = '<a title="Edit" class="btn btn-warning waves-effect waves-light btn-xs" style="margin-bottom:5px" href="'.base_url().'kandidat/edit-kandidat/'.$field['id_kandidat'].'"><i class="fas fa-pencil-alt"></i></a>
 			<a title="Delete" class="btn btn-danger waves-effect waves-light btn-xs" onclick="return confirm(\'Anda yakin ingin menghapus Kandidat ini?\')" style="margin-bottom:5px" href="'.base_url().'kandidat/hapus-kandidat/'.$field['id_kandidat'].'"><i class="fas fa-trash"></i></a>';
@@ -149,22 +169,14 @@ class M_kandidat extends CI_Model {
         $this->db->where("username like binary",$username);
         $query = $this->db->get();
         return $query;
-        // $this->db->select('username');
-        // $this->db->from('admin_tps');
-        // $query = $this->db->get();
-        // return $query->result_array();
     }
 
     function validate_no($where,$username){
         $this->db->select('*');
         $this->db->from("kandidat");
-        $this->db->where("id_kegiatan",$where);
+        $this->db->where("id_pemilihan",$where);
         $this->db->where("no_urut like binary",$username);
         $query = $this->db->get();
         return $query;
-        // $this->db->select('username');
-        // $this->db->from('admin_tps');
-        // $query = $this->db->get();
-        // return $query->result_array();
     }
 }

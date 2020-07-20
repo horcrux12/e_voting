@@ -26,10 +26,10 @@
                 <div class="row mb-2">
                     <div class="col-lg-4">
                         <div class="form-group row">
-                            <label class="col-lg-3 control-label mt-2" for="filter_kegiatan">Jenis Kegiatan</label>
+                            <label class="col-lg-3 control-label mt-2" for="filter_kegiatan">Instansi</label>
                             <div class="col-lg-9">
                                 <select name="filter_kegiatan" id="filter_kegiatan" class="form-control">
-                                    <option value="">Pilih Kegiatan</option>
+                                    <option value="">Pilih Instansi</option>
                                     <?php foreach ($data as $key) {?>
                                         <option value="<?php echo $key['id_kegiatan']?>"><?php echo $key['nama_kegiatan']?></option>
 
@@ -43,10 +43,11 @@
                 <table id="user_datatable" class="table table-striped table-bordered table-hover" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                     <thead>
                         <tr>
-                            <th>Nama Kegiatan</th>
+                            <th>Nama Instansi</th>
                             <th>Nama TPS</th>
                             <th>Lokasi</th>
                             <th>Username</th>
+                            <th>Panitia</th>
                             <th>No TPS</th>
                             <th>Jumlah bilik</th>
                             <th>Action</th>

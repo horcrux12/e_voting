@@ -64,16 +64,15 @@ class Kegiatan extends MY_Controller {
 	{
 		$page_content["page"] = 'kegiatan/form-tambah';
 		$page_content["css"] = '
-			<link href="'.base_url().'assets/libs/bootstrap-timepicker/bootstrap-timepicker.min.css" rel="stylesheet" type="text/css" />
-			<link href="'.base_url().'assets/libs/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />';
+			<link href="'.base_url().'assets/libs/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet" type="text/css" />';
 		$page_content["js"] = '
 			<!--Form Wizard-->
 			<script src="'.base_url().'assets/libs/parsleyjs/parsley.min.js"></script>
-			<script src="'.base_url().'assets/libs/bootstrap-timepicker/bootstrap-timepicker.min.js"></script>
-			<script src="'.base_url().'assets/libs/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+			<script src="'.base_url().'assets/libs/moment/moment.min.js"></script>
+			<script src="'.base_url().'assets/libs/bootstrap-daterangepicker/daterangepicker.js"></script>
 
 			<!-- Init js-->
-			<script src="'.base_url().'assets/js/pages/form-wizard-kegiatan.init.js"></script>';
+			<script src="'.base_url().'assets/js/pages/form-validation-kegiatan.init.js"></script>';
 
 		$page_content["title"] = "Tambah Kegiatan";
 		$data = $this->m_kegiatan->get_jenis_kegiatan();
@@ -85,13 +84,12 @@ class Kegiatan extends MY_Controller {
 	public function edit($id){
 		$page_content["page"] = 'kegiatan/form-edit';
 		$page_content["css"] = '
-			<link href="'.base_url().'assets/libs/bootstrap-timepicker/bootstrap-timepicker.min.css" rel="stylesheet" type="text/css" />
-			<link href="'.base_url().'assets/libs/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />';
+		<link href="'.base_url().'assets/libs/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet" type="text/css" />';
 		$page_content["js"] = '
 			<!-- Plugin js-->
 			<script src="'.base_url().'assets/libs/parsleyjs/parsley.min.js"></script>
-			<script src="'.base_url().'assets/libs/bootstrap-timepicker/bootstrap-timepicker.min.js"></script>
-			<script src="'.base_url().'assets/libs/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+			<script src="'.base_url().'assets/libs/moment/moment.min.js"></script>
+			<script src="'.base_url().'assets/libs/bootstrap-daterangepicker/daterangepicker.js"></script>
 
 			<!-- Validation init js-->
 			<script src="'.base_url().'assets/js/pages/form-validation-kegiatan.init.js"></script>';
@@ -115,23 +113,28 @@ class Kegiatan extends MY_Controller {
 		
 		$last_id_kegiatan = $this->m_kegiatan->get_last_kegiatan();
 		// $last_id_tps = $this->m_kegiatan->get_last_tps();
-		$time_mulai = $this->input->post('tanggal_mulai')." ".$this->input->post('waktu_mulai');
-		$time_akhir = $this->input->post('tanggal_akhir')." ".$this->input->post('waktu_akhir');
+		$tanggal 	= $this->input->post('tanggal_kegiatan');
+		$tgl		= explode("-",$tanggal);
+
 
 		$kegiatan_now = $last_id_kegiatan + 1;
-		// $tps_now = $last_id_tps;
-		$tanggal_mulai = nice_date($time_mulai,'Y-m-d H:i:s');
-		$tanggal_akhir = nice_date($time_akhir,'Y-m-d H:i:s');
+		$tanggal_mulai = nice_date($tgl[0],'Y-m-d H:i:s');
+		$tanggal_akhir = nice_date($tgl[1],'Y-m-d H:i:s');
 
 		$data_Kegiatan = array(
-			'id_kegiatan' 	=> $kegiatan_now,
-			'nama_kegiatan' => $this->input->post('nama_kegiatan'),
-			'alamat' 		=> $this->input->post('alamat_kegiatan'),
-			'start_date'	=> $tanggal_mulai,
-			'end_date'		=> $tanggal_akhir,
-			'jumlah_tps'	=> 0,
-			'id_jenis'		=> $this->input->post('jenis_kegiatan')
+			'id_kegiatan' 		=> $kegiatan_now,
+			'nama_kegiatan' 	=> $this->input->post('nama_kegiatan'),
+			'alamat' 			=> $this->input->post('alamat_kegiatan'),
+			'start_date'		=> $tanggal_mulai,
+			'end_date'			=> $tanggal_akhir,
+			'jumlah_tps'		=> 0,
+			'jumlah_pemilihan'	=> 0,
+			'id_jenis'			=> $this->input->post('jenis_kegiatan')
 		);
+
+		// echo "<pre>";
+		// print_r($data_Kegiatan);
+		// echo "</pre>";
 
 		// $data_tps = [];
 		// $data_bilik = [];
@@ -181,10 +184,6 @@ class Kegiatan extends MY_Controller {
 		// 	$data_tps[] 		= $datas;
 		// }
 
-		// echo "<pre>";
-		// print_r($this->input->post());
-		// echo "</pre>";
-
 		$save_kegiatan 	= $this->m_kegiatan->store('kegiatan',$data_Kegiatan);
 		// $save_tps 		= $this->m_kegiatan->store_batch('admin_tps',$data_tps);
 		// $save_panitia 	= $this->m_kegiatan->store_batch('panitia',$data_panitia);
@@ -205,12 +204,13 @@ class Kegiatan extends MY_Controller {
 
 	public function update(){
 		$data = $this->input->post();
-		$time_mulai = $this->input->post('tanggal_mulai')." ".$this->input->post('waktu_mulai');
-		$time_akhir = $this->input->post('tanggal_akhir')." ".$this->input->post('waktu_akhir');
+		
+		$tanggal 	= $this->input->post('tanggal_kegiatan');
+		$tgl		= explode("-",$tanggal);
 
-		$tanggal_mulai = nice_date($time_mulai,'Y-m-d H:i:s');
-		$tanggal_akhir = nice_date($time_akhir,'Y-m-d H:i:s');
-		$where = $this->input->post('id');
+		$tanggal_mulai 	= nice_date($tgl[0],'Y-m-d H:i:s');
+		$tanggal_akhir 	= nice_date($tgl[1],'Y-m-d H:i:s');
+		$where 			= $this->input->post('id');
 
 		$data_kegiatan = array(
 			'nama_kegiatan' => $this->input->post('nama_kegiatan'),
@@ -236,10 +236,12 @@ class Kegiatan extends MY_Controller {
 	}
 
 	public function drop($id){
-		$delete_kegiatan = $this->m_dinamic->delete_data('kegiatan','id_kegiatan',$id);
-		$delete_tps = $this->m_dinamic->delete_data('admin_tps','id_kegiatan',$id);
-		$delete_panitia = $this->m_dinamic->delete_data('panitia','id_kegiatan',$id);
-		$delete_bilik = $this->m_dinamic->delete_data('user_bilik','id_kegiatan',$id);
+		$delete_kegiatan 	= $this->m_dinamic->delete_data('kegiatan','id_kegiatan',$id);
+		$delete_tps 		= $this->m_dinamic->delete_data('admin_tps','id_kegiatan',$id);
+		$delete_pemilihan 	= $this->m_dinamic->delete_data('pemilihan','id_kegiatan',$id);
+		$delete_kandidat  	= $this->m_dinamic->delete_data('kandidat','id_kegiatan',$id);
+		$delete_panitia 	= $this->m_dinamic->delete_data('panitia','id_kegiatan',$id);
+		$delete_bilik 		= $this->m_dinamic->delete_data('user_bilik','id_kegiatan',$id);
 
 		if ($delete_kegiatan) {
 			if ($delete_tps) {

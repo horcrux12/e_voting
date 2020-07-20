@@ -41,50 +41,20 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-lg-2 control-label " for="alamat_kegiatan">Alamat Kegiatan <span
+                    <label class="col-lg-2 control-label " for="alamat_kegiatan">Alamat <span
                             class="text-danger">*</span></label>
                     <div class="col-lg-10">
                         <textarea name="alamat_kegiatan" id="alamat_kegiatan" class="required form-control" rows="5" required data-parsley-trigger="keyup" data-parsley-minlength="20" data-parsley-minlength-message="Minimal 20 Karakter.."></textarea>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-lg-2 control-label " for="tgl_mulai">Tanggal Mulai <span
+                    <label class="col-lg-2 control-label " for="tgl_mulai">Tanggal Kegiatan <span
                             class="text-danger">*</span></label>
-                    <div class="col-lg-6">
+                    <div class="col-lg-10">
                         <div class="input-group">
-                            <input type="text" required="" class="form-control" placeholder="mm/dd/yyyy" id="datepicker-autoclose-start" name="tanggal_mulai">
+                            <input type="text" class="form-control input-daterange-timepicker" id="tanggal_kegiatan" name="tanggal_kegiatan" placeholder="Masukkan tanggal kegiatan" required/>
                             <div class="input-group-append">
                                 <span class="input-group-text bg-primary text-white b-0"><i class="mdi mdi-calendar"></i></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="input-group">
-                            <input id="timepicker-start" type="text" required="" class=" form-control" name="waktu_mulai">
-                            <div class="input-group-append">
-                                <span class="input-group-text"><i class="mdi mdi-clock-outline"></i></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-lg-2 control-label " for="tgl_akhir">Tanggal Berakhir <span
-                            class="text-danger">*</span></label>
-                    <div class="col-lg-6">
-                        <div class="input-group">
-                            <input type="text" required="" class=" form-control" placeholder="mm/dd/yyyy"
-                                id="datepicker-autoclose-end" name="tanggal_akhir">
-                            <div class="input-group-append">
-                                <span class="input-group-text bg-primary text-white b-0"><i
-                                        class="mdi mdi-calendar"></i></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="input-group">
-                            <input id="timepicker-end" type="text" required="" class="form-control" name="waktu_akhir">
-                            <div class="input-group-append">
-                                <span class="input-group-text"><i class="mdi mdi-clock-outline"></i></span>
                             </div>
                         </div>
                     </div>

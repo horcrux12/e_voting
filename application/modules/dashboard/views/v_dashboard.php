@@ -20,7 +20,7 @@
             <div class="card widget-box-one border border-primary bg-soft-primary">
                 <div class="card-body">
                     <div class="float-right avatar-lg rounded-circle mt-3">
-                        <a href="<?php echo base_url()?>detail-kegiatan"><i class="mdi mdi-window-shutter font-30 widget-icon rounded-circle avatar-title text-primary"></i></a>
+                        <a href="<?php echo base_url()?>detail-kegiatan" id="link-kegiatan"><i class="mdi mdi-window-shutter font-30 widget-icon rounded-circle avatar-title text-primary"></i></a>
                     </div>
                     <div class="wigdet-one-content">
                         <p class="m-0 text-uppercase font-weight-bold text-muted" title="Detail Kegiatan">Detail Kegiatan</p>
@@ -37,13 +37,13 @@
             <div class="card widget-box-one border border-danger bg-soft-danger">
                 <div class="card-body">
                     <div class="float-right avatar-lg rounded-circle mt-3">
-                        <a href="#0"><i class="mdi mdi-av-timer font-30 widget-icon rounded-circle avatar-title text-danger"></i></a>
+                        <a href="#0" id="link-waktu"><i class="mdi mdi-av-timer font-30 widget-icon rounded-circle avatar-title text-danger"></i></a>
                     </div>
                     <div class="wigdet-one-content">
                         <p class="m-0 text-uppercase font-weight-bold text-muted" title="Tambah Waktu Pemilihan">Tambah Waktu Pemilihan</p>
                         <h2> <i class="mdi mdi-arrow-right text-success font-24"></i></h2>
                         <hr class="mt-4 mb-0">
-                        <p class="text-muted m-0"><span class="font-weight-medium">Last:</span> 956</p>
+                        <p class="text-muted m-0" id="waktu-pemilihan" data-time="<?php echo $data['kegiatan']['end_date'];?>"><span class="font-weight-medium">Waktu Akhir:</span> <?php echo format_indo($data['kegiatan']['end_date']);?></p>
                     </div>
                 </div>
             </div>
@@ -59,7 +59,7 @@
                         }else {
                             $link = "pemilih_pelajar";
                         } ?>
-                        <a href="<?php echo base_url($link);?>"><i class="mdi mdi-account-convert font-30 widget-icon rounded-circle avatar-title text-success"></i></a>
+                        <a href="<?php echo base_url($link);?>" id="link-data"><i class="mdi mdi-account-convert font-30 widget-icon rounded-circle avatar-title text-success"></i></a>
                     </div>
                     <div class="wigdet-one-content">
                         <p class="m-0 text-uppercase font-weight-bold text-muted" title="Data Pemilih">Data Pemilih</p>
@@ -76,7 +76,7 @@
             <div class="card widget-box-one border border-warning bg-soft-warning">
                 <div class="card-body">
                     <div class="float-right avatar-lg rounded-circle mt-3">
-                        <a href="#0"><i class="mdi mdi-layers font-30 widget-icon rounded-circle avatar-title text-warning"></i></a>
+                        <a href="#0" id="link-beita-acara"><i class="mdi mdi-layers font-30 widget-icon rounded-circle avatar-title text-warning"></i></a>
                     </div>
                     <div class="wigdet-one-content">
                         <p class="m-0 text-uppercase font-weight-bold text-muted" title="Berita Acara">Berita Acara</p>
@@ -90,28 +90,37 @@
         <!-- end col -->
     </div>
 
-    <div class="row">
+    <div class="row" id="text_bilik">
         <div class="col-12">
             <h4>Bilik Suara</h4>
         </div>
-        <?php foreach ($data['bilik'] as $bilik) {?>
-        <div class="col-xl-3 col-md-6">
-            <div class="card widget-box-one border border-dark bg-soft-dark">
-                <div class="card-body">
-                    <div class="float-right avatar-lg rounded-circle mt-3">
-                        <a href="<?php echo base_url();?>atur-bilik/<?php echo $bilik['no_bilik'];?>"><i class="mdi mdi-layers font-30 widget-icon rounded-circle avatar-title text-dark"></i></a>
-                    </div>
-                    <div class="wigdet-one-content">
-                        <p class="m-0 text-uppercase font-weight-bold text-muted" title="<?php echo "Bilik ".$bilik['no_bilik']; ?>"><?php echo "Bilik ".$bilik['no_bilik']; ?></p>
-                        <h2><i class="mdi mdi-arrow-right text-dark font-24"></i></h2>
-                        <hr class="mt-4 mb-0">
-                        <p class="text-muted m-0"><?php echo $bilik['nama'] ?></p>
+    </div>
+
+    <div class="row" id="bilik-habis">
+        <div class="col-12"><span class="font-weight-medium">Waktu telah habis !!!</span> silahkan menambah waktu pemilihan</div>
+    </div>
+
+    <div class="row" id="daftar_bilik">
+        <!-- <div id="daftar_bilik"> -->
+            <?php foreach ($data['bilik'] as $bilik) {?>
+            <div class="col-xl-3 col-md-6">
+                <div class="card widget-box-one border border-dark bg-soft-dark">
+                    <div class="card-body">
+                        <div class="float-right avatar-lg rounded-circle mt-3">
+                            <a class="bilik_suara" id="bilik-<?php echo $bilik['id_bilik']?>" href="<?php echo base_url();?>atur-bilik/<?php echo $bilik['id_bilik'];?>"><i class="mdi mdi-layers font-30 widget-icon rounded-circle avatar-title text-dark"></i></a>
+                        </div>
+                        <div class="wigdet-one-content">
+                            <p class="m-0 text-uppercase font-weight-bold text-muted" title="<?php echo "Bilik ".$bilik['no_bilik']; ?>"><?php echo "Bilik ".$bilik['no_bilik']; ?></p>
+                            <h2><i class="mdi mdi-arrow-right text-dark font-24"></i></h2>
+                            <hr class="mt-4 mb-0">
+                            <p class="text-muted m-0 text-bawah"><span class="font-weight-medium">Status : </span><?php echo ($bilik['id_pemilih'] == null ? 'Aktif, Bilik Kosong':'Tidak Aktif, Bilik Terisi') ?></p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- end col -->
-        <?php } ?>
+            <!-- end col -->
+            <?php } ?>
+        <!-- </div> -->
     </div>
 
     <div class="row">

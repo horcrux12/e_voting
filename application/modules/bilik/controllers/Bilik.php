@@ -134,7 +134,6 @@ class Bilik extends MY_Controller {
 			'no_bilik'		=> $this->input->post('no_bilik'),
 			'id_kegiatan'	=> $this->input->post('kegiatan'),
 			'id_tps'		=> $this->input->post('tps'),
-			'level'			=> 3
 		);
 
 		$last_jumlah_bilik = $this->m_dinamic->getWhere ('admin_tps','id_tps',$where_tps)->result_array();
@@ -176,7 +175,6 @@ class Bilik extends MY_Controller {
 			'no_bilik'		=> $input['no_bilik'],
 			'id_kegiatan'	=> $input['kegiatan'],
 			'id_tps'		=> $input['tps'],
-			'level'			=> 3
 		);
 
 		$input_bilik = $this->m_dinamic->update_data('id_bilik',$where,$data_bilik,'user_bilik');

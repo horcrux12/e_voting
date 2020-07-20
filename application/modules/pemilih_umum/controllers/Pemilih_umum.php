@@ -44,6 +44,7 @@ class Pemilih_umum extends MY_Controller {
 		$page_content["js"] 	= '
 			<script src="'.base_url().'assets/libs/datatables/jquery.dataTables.min.js"></script>
 			<script src="'.base_url().'assets/libs/datatables/dataTables.bootstrap4.min.js"></script>
+			<script src="'.base_url().'assets/libs/parsleyjs/parsley.min.js"></script>
 			<!-- Datatables init -->
 			<script src="'.base_url().'assets/js/pages/datatables.init.js"></script>
 			<script src="'.base_url().'assets/js/menu_pemilih_umum.js"></script>
@@ -54,8 +55,13 @@ class Pemilih_umum extends MY_Controller {
 			$page_content["title"] 	= "Data Pemilih";
 		}
 
-		$data_kegiatan = $this->m_dinamic->getWhere('kegiatan','id_jenis',1)->result_array();
-		$data_tps = $this->m_pemilih_umum->get_tps_umum()->result_array();
+		if ($this->session->userdata('level_admin') == 1) {
+			$data_kegiatan	= $this->m_dinamic->getWhere('kegiatan','id_jenis',1)->result_array();
+			$data_tps 		= '';
+		}else{
+			$data_kegiatan	= $this->m_dinamic->getWhere('kegiatan','id_kegiatan',$this->session->userdata('id_kegiatan'))->result_array();
+			$data_tps 		= $this->m_dinamic->getWhere('admin_tps','id_tps',$this->session->userdata('id_login'))->result_array();
+		}
 		
 		$page_content["data"]["kegiatan"] = $data_kegiatan;
 		$page_content["data"]["tps"] = $data_tps;

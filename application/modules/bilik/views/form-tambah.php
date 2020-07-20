@@ -22,11 +22,11 @@
             <h4 class="header-title">Form <?php echo $title ?></h4>
             <form id="wizard-validation-form" action="<?php echo base_url()?>bilik/store" method="POST">
                 <div class="form-group row">
-                    <label class="col-lg-2 control-label " for="kegiatan">Nama Kegiatan <span
+                    <label class="col-lg-2 control-label " for="kegiatan">Instansi <span
                             class="text-danger">*</span></label>
                     <div class="col-lg-10">
                         <select name="kegiatan" id="kegiatan" class="form-control" required="">
-                            <option value="">Pilih Kegiatan</option>
+                            <option value="">Pilih Instansi</option>
                             <?php foreach ($data as $key) {?>
                             <option value="<?php echo $key['id_kegiatan']?>"><?php echo $key['nama_kegiatan']?></option>
                             <?php } ?>
@@ -79,7 +79,7 @@
                 <div class="form-group row">
                     <label class="col-lg-2 control-label" for="no_bilik">No Bilik <span class="text-danger">*</span></label>
                     <div class="col-lg-10">
-                        <input class="form-control" id="no_bilik" required="" name="no_bilik" type="text"
+                        <input class="form-control" id="no_bilik" required="" name="no_bilik" type="text" data-parsley-type="number"
                             data-parsley-trigger="focusout" data-parsley-maxlength="12"
                             data-parsley-maxlength-message="Maksimal 12 Karakter.." data-parsley-checknobilik
                             data-parsley-checknobilik-message="Nomor Telah Digunakan" readonly>

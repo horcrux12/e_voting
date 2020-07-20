@@ -55,6 +55,7 @@ $route['translate_uri_dashes'] = FALSE;
 
 // Dashboard
 $route['dashboard'] = 'dashboard/dashboard/index';
+$route['dashboard/time-limit'] = 'dashboard/dashboard/limit';
 $route['detail-kegiatan'] = 'dashboard/dashboard/detail';
 
 $route['menu-user'] = 'menu_user/user/table';
@@ -80,6 +81,16 @@ $route['kegiatan/hapus-kegiatan/(:num)'] = 'kegiatan/kegiatan/drop/$1';
 $route['kegiatan/server-side'] = 'kegiatan/kegiatan/serverSide';
 $route['kegiatan/check-tps'] = 'kegiatan/kegiatan/checkTPS';
 
+// Pemilihan
+$route['pemilihan'] = 'pemilihan/pemilihan/table';
+$route['pemilihan/tambah-pemilihan'] = 'pemilihan/pemilihan/tambah';
+$route['pemilihan/edit-pemilihan/(:num)'] = 'pemilihan/pemilihan/edit/$1';
+$route['pemilihan/update'] = 'pemilihan/pemilihan/update';
+$route['pemilihan/store'] = 'pemilihan/pemilihan/store';
+$route['pemilihan/hapus-pemilihan/(:num)'] = 'pemilihan/pemilihan/drop/$1';
+$route['pemilihan/server-side'] = 'pemilihan/pemilihan/serverSide';
+$route['pemilihan/check-tps'] = 'pemilihan/pemilihan/checkTPS';
+
 // TPS
 $route['tps'] = 'tps/tps/table';
 $route['tps/tambah-tps'] = 'tps/tps/tambah';
@@ -100,6 +111,7 @@ $route['kandidat/store'] = 'kandidat/kandidat/store';
 $route['kandidat/hapus-kandidat/(:num)'] = 'kandidat/kandidat/drop/$1';
 $route['kandidat/server-side'] = 'kandidat/kandidat/serverSide';
 $route['kandidat/check-no/(:num)'] = 'kandidat/kandidat/checknokandidat/$1';
+$route['kandidat/getpemilihan/(:num)'] = 'kandidat/kandidat/getpemilihan/$1';
 
 // Bilik
 $route['bilik'] = 'bilik/bilik/table';
@@ -130,6 +142,8 @@ $route['pemilih_umum/hapus-pemilih_umum/(:num)'] = 'pemilih_umum/pemilih_umum/dr
 $route['pemilih_umum/server-side'] = 'pemilih_umum/pemilih_umum/serverSide';
 $route['pemilih_umum/getpemilih_umum/(:num)'] = 'pemilih_umum/pemilih_umum/get_pemilih_umum/$1';
 $route['pemilih_umum/check-user'] = 'pemilih_umum/pemilih_umum/check_pemilih_umum';
+$route['pemilih_umum/download-source'] = 'pemilih_umum/excel/source';
+$route['pemilih_umum/import-excel'] = 'pemilih_umum/excel/read';
 
 
 // Pemilih Pelajar
@@ -142,6 +156,8 @@ $route['pemilih_pelajar/hapus-pemilih_pelajar/(:any)'] = 'pemilih_pelajar/pemili
 $route['pemilih_pelajar/server-side'] = 'pemilih_pelajar/pemilih_pelajar/serverSide';
 $route['pemilih_pelajar/getpemilih_pelajar/(:any)'] = 'pemilih_pelajar/pemilih_pelajar/get_pemilih_pelajar/$1';
 $route['pemilih_pelajar/check-user'] = 'pemilih_pelajar/pemilih_pelajar/check_pemilih_pelajar';
+$route['pemilih_pelajar/download-source'] = 'pemilih_pelajar/excel/source';
+$route['pemilih_pelajar/import-excel'] = 'pemilih_pelajar/excel/read';
 
 // Bilik Pemilihan
 $route['atur-bilik/(:num)'] = 'bilik_pemilih/table/$1';
@@ -150,3 +166,4 @@ $route['atur-bilik/isi-bilik'] = 'bilik_pemilih/isibilik';
 
 // Data User JS
 $route['ambil-data/user'] = 'templates/data_user/get';
+$route['ambil-data/debug'] = 'templates/data_user/debug';
