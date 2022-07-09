@@ -59,6 +59,24 @@ class M_dashboard extends CI_Model {
         return $q;
     }
 
+    function get_bilik_pelajar($id_tps){
+        $this->db->select('user_bilik.*,data_pemilih_pelajar.nama AS nama, data_pemilih_pelajar.no_identitas AS no_identitas');
+        $this->db->from('user_bilik');
+        $this->db->join('data_pemilih_pelajar','user_bilik.id_pemilih = data_pemilih_pelajar.no_identitas','left');
+        $this->db->where('user_bilik.id_tps',$id_tps);
+        $q = $this->db->get();
+        return $q;
+    }
+
+    function get_bilik_umum($id_tps){
+        $this->db->select('user_bilik.*,data_pemilih_umum.nama AS nama, data_pemilih_umum.no_identitas AS no_identitas');
+        $this->db->from('user_bilik');
+        $this->db->join('data_pemilih_umum','user_bilik.id_pemilih = data_pemilih_umum.no_identitas','left');
+        $this->db->where('user_bilik.id_tps',$id_tps);
+        $q = $this->db->get();
+        return $q;
+    }
+
     function store($tabel, $data){
         return $this->db->insert($tabel, $data);
     }

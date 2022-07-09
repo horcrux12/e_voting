@@ -21,6 +21,10 @@
             </div>
             <div class="card-body">
                 <p class="subheader mb-4">Pilih peserta yang akan melakukan pemilihan dengan cara <strong>klik tombol <span class="text-primary">biru</span> pada kolom<span class="text-primary"> action</span></strong></p>
+                <form id="form_isi" action="<?php echo base_url();?>atur-bilik/isi-bilik" method="POST">
+                    <input type="text" name="id_bilik" hidden value="<?php echo $data;?>">
+                    <input type="text" id="identitas" name="identitas" hidden value="">
+                </form>  
                 <table id="user_datatable" class="table table-striped table-bordered table-hover" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                     <thead>
                         <tr>

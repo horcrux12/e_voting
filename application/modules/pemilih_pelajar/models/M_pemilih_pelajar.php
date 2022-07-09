@@ -67,7 +67,7 @@ class M_pemilih_pelajar extends CI_Model {
         // Get data
         $this->db->select('data_pemilih_pelajar.*, kegiatan.id_kegiatan AS id_kegiatan,
          kegiatan.nama_kegiatan AS nama_kegiatan, admin_tps.id_tps AS id_tps, admin_tps.nama AS nama_tps,
-         user_bilik.id_bilik AS id_bilik, user_bilik.nama AS nama_bilik, user_bilik.no_bilik');
+         user_bilik.id_bilik AS id_bilik, user_bilik.nama_bilik AS nama_bilik, user_bilik.no_bilik');
         $this->db->from('data_pemilih_pelajar');
         $this->db->join('kegiatan', 'data_pemilih_pelajar.id_kegiatan = kegiatan.id_kegiatan','left');
         $this->db->join('admin_tps', 'data_pemilih_pelajar.id_tps = admin_tps.id_tps','left');
@@ -137,8 +137,12 @@ class M_pemilih_pelajar extends CI_Model {
             $row ['nama_tps']       = $field['nama_tps'];
             $row ['no_bilik']       = $field['no_bilik'];
             $row ['status']         = $status;
-            $row ['action']         = '<a title="Edit" class="btn btn-warning waves-effect waves-light btn-xs" style="margin-bottom:5px" href="'.base_url().'pemilih_pelajar/edit-pemilih_pelajar/'.$field['no_identitas'].'"><i class="fas fa-pencil-alt"></i></a><br>
-			<a title="Delete" class="btn btn-danger waves-effect waves-light btn-xs" onclick="return confirm(\'Anda yakin ingin menghapus Pemilih ini?\')" style="margin-bottom:5px" href="'.base_url().'pemilih_pelajar/hapus-pemilih_pelajar/'.$field['no_identitas'].'"><i class="fas fa-trash"></i></a>';
+            if ($this->session->userdata('level_admin') == 2) {
+                $row ['action']     = 'Not Allowed';
+            }elseif($this->session->userdata('level_admin') == 1){
+                $row ['action']     = '<a title="Edit" class="btn btn-warning waves-effect waves-light btn-xs" style="margin-bottom:5px" href="'.base_url().'pemilih_pelajar/edit-pemilih_pelajar/'.$field['no_identitas'].'"><i class="fas fa-pencil-alt"></i></a><br>
+                <a title="Delete" class="btn btn-danger waves-effect waves-light btn-xs" onclick="return confirm(\'Anda yakin ingin menghapus Pemilih ini?\')" style="margin-bottom:5px" href="'.base_url().'pemilih_pelajar/hapus-pemilih_pelajar/'.$field['no_identitas'].'"><i class="fas fa-trash"></i></a>';    
+            }
             $data[] = $row;
         }
 

@@ -37,10 +37,10 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-lg-2 control-label " for="kegiatan">Instansi <span class="text-danger">*</span></label>
+                                <label class="col-lg-2 control-label " for="kegiatan">Kegiatan <span class="text-danger">*</span></label>
                                 <div class="col-lg-10">
                                     <select name="kegiatan" id="kegiatan" required="" class="form-control">
-                                        <option value="">Pilih Instansi</option>
+                                        <option value="">Pilih Kegiatan</option>
                                         <?php foreach ($data['kegiatan'] as $key) {?>
                                         <option value="<?php echo $key['id_kegiatan']?>" <?php echo ($key['id_kegiatan'] == $data['pemilihan'][0]['id_kegiatan'] ? "selected" : "");?>><?php echo $key['nama_kegiatan']?></option>
 

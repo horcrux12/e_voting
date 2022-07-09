@@ -3,22 +3,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Kegiatan extends MY_Controller {
 
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see https://codeigniter.com/user_guide/general/urls.html
-	 */
-
 	public function __construct(){
         parent::__construct();
         $this->load->model('kegiatan/m_kegiatan');
@@ -64,7 +48,7 @@ class Kegiatan extends MY_Controller {
 	{
 		$page_content["page"] = 'kegiatan/form-tambah';
 		$page_content["css"] = '
-			<link href="'.base_url().'assets/libs/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet" type="text/css" />';
+			<link href="'.base_url().'assets/libs/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet" type="text/css"/>';
 		$page_content["js"] = '
 			<!--Form Wizard-->
 			<script src="'.base_url().'assets/libs/parsleyjs/parsley.min.js"></script>
@@ -223,6 +207,16 @@ class Kegiatan extends MY_Controller {
 		$input_kegiatan = $this->m_dinamic->update_data('id_kegiatan',$where,$data_kegiatan,'kegiatan');
 
 		if ($input_kegiatan) {
+			$data_tps	= $this->m_dinamic->getWhere ('admin_tps','id_kegiatan',$where)->result_array();
+			if(!empty($data_tps)){
+				foreach($data_tps as $key){
+					$inp	= array(
+						'tambahan_waktu' => null,
+					);
+					$this->m_dinamic->update_data('id_tps',$key['id_tps'],$inp,'admin_tps');
+				}
+			}
+
 			echo "<script>
 			alert('Data Berhasil diubah');
 			window.location.href='".base_url('kegiatan')."';

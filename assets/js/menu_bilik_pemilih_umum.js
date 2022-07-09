@@ -63,6 +63,16 @@ $(document).ready(function(){
        //  console.log($(this).val())
     });
 
+    $('#user_datatable tbody').delegate('.button','click',function(){
+        $('#identitas').val($(this).data('id'));
+        var id      = $(this).data('id');
+        var nama    = $(this).data('nama');
+        // alert($('#identitas').val());
+        if (confirm("Anda memilih "+nama+"("+id+") Apakah Anda yakin ??")) {
+            $('#form_isi').submit();
+        }
+    })
+
     function getTPS(id){
         if (id != '') {
             $.ajax({

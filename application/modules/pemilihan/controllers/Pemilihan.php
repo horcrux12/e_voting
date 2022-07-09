@@ -46,7 +46,7 @@ class Pemilihan extends MY_Controller {
 			<script src="'.base_url().'assets/libs/datatables/dataTables.bootstrap4.min.js"></script>
 			<!-- Datatables init -->
 			<script src="'.base_url().'assets/js/pages/datatables.init.js"></script>
-			<script src="'.base_url().'assets/js/menu_pemilihan.js"></script>
+			<script src="'.base_url().'assets/js/menu_pemilihan.js?v='.rand().'"></script>
 			<script src="'.base_url().'assets/libs/moment/moment.min.js"></script>';
 		$page_content["title"] 	= "Data Pemilihan";
 
@@ -166,32 +166,17 @@ class Pemilihan extends MY_Controller {
 	}
 
 	public function drop($id){
-		$delete_kegiatan = $this->m_dinamic->delete_data('kegiatan','id_kegiatan',$id);
-		$delete_tps = $this->m_dinamic->delete_data('admin_tps','id_kegiatan',$id);
-		$delete_panitia = $this->m_dinamic->delete_data('panitia','id_kegiatan',$id);
-		$delete_bilik = $this->m_dinamic->delete_data('user_bilik','id_kegiatan',$id);
+		$data_pemilihan = $this->m_dinamic->getWhere ('pemilihan','id_pemilihan',$id)->row_array();
+		$data_kegiatan = $this->m_dinamic->getWhere ('kegiatan','id_kegiatan',$data_pemilihan['id_kegiatan'])->row_array();
+		$delete_pemilihan = $this->m_dinamic->delete_data('pemilihan','id_pemilihan',$id);
+		$jumlah_pemilihan = array ( "jumlah_pemilihan" => $data_kegiatan['jumlah_pemilihan'] - 1);
 
-		if ($delete_kegiatan) {
-			if ($delete_tps) {
-				if ($delete_panitia) {
-					if ($delete_bilik) {
-						echo "<script>
-						alert('Data Berhasil dihapus');
-						window.location.href='".base_url('kegiatan')."';
-						</script>";
-					}
-				}else {
-					echo "<script>
-						alert('Data Gagal dihapus');
-						window.history.back();
-						</script>";
-				}
-			}else{
-				echo "<script>
-				alert('Data Gagal dihapus');
-				window.history.back();
-				</script>";
-			}
+		if ($delete_pemilihan) {
+			$this->m_dinamic->update_data('id_kegiatan',$data_pemilihan['id_kegiatan'],$jumlah_pemilihan,'kegiatan');
+			echo "<script>
+			alert('Data Berhasil dihapus');
+			window.location.href='".base_url('pemilihan')."';
+			</script>";
 		}else{
 			echo "<script>
 			alert('Data Gagal dihapus');

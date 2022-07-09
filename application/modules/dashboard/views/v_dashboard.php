@@ -37,13 +37,13 @@
             <div class="card widget-box-one border border-danger bg-soft-danger">
                 <div class="card-body">
                     <div class="float-right avatar-lg rounded-circle mt-3">
-                        <a href="#0" id="link-waktu"><i class="mdi mdi-av-timer font-30 widget-icon rounded-circle avatar-title text-danger"></i></a>
+                        <a href="<?php echo base_url()?>tambah-waktu-kegiatan" id="link-waktu"><i class="mdi mdi-av-timer font-30 widget-icon rounded-circle avatar-title text-danger"></i></a>
                     </div>
                     <div class="wigdet-one-content">
                         <p class="m-0 text-uppercase font-weight-bold text-muted" title="Tambah Waktu Pemilihan">Tambah Waktu Pemilihan</p>
                         <h2> <i class="mdi mdi-arrow-right text-success font-24"></i></h2>
                         <hr class="mt-4 mb-0">
-                        <p class="text-muted m-0" id="waktu-pemilihan" data-time="<?php echo $data['kegiatan']['end_date'];?>"><span class="font-weight-medium">Waktu Akhir:</span> <?php echo format_indo($data['kegiatan']['end_date']);?></p>
+                        <p class="text-muted m-0" id="waktu-pemilihan" data-time="<?php echo (isset($data['tps']['tambahan_waktu']) ? $data['tps']['tambahan_waktu'] : $data['kegiatan']['end_date']);?>"><span class="font-weight-medium">Waktu Akhir:</span> <?php echo (isset($data['tps']['tambahan_waktu']) ? format_indo($data['tps']['tambahan_waktu']) : format_indo($data['kegiatan']['end_date']));;?></p>
                     </div>
                 </div>
             </div>
@@ -76,7 +76,7 @@
             <div class="card widget-box-one border border-warning bg-soft-warning">
                 <div class="card-body">
                     <div class="float-right avatar-lg rounded-circle mt-3">
-                        <a href="#0" id="link-beita-acara"><i class="mdi mdi-layers font-30 widget-icon rounded-circle avatar-title text-warning"></i></a>
+                        <a href="<?php echo base_url()?>berita-acara" id="link-berita-acara"><i class="mdi mdi-layers font-30 widget-icon rounded-circle avatar-title text-warning"></i></a>
                     </div>
                     <div class="wigdet-one-content">
                         <p class="m-0 text-uppercase font-weight-bold text-muted" title="Berita Acara">Berita Acara</p>
@@ -96,7 +96,7 @@
         </div>
     </div>
 
-    <div class="row" id="bilik-habis">
+    <div class="row" id="bilik-habis" style="display:none;">
         <div class="col-12"><span class="font-weight-medium">Waktu telah habis !!!</span> silahkan menambah waktu pemilihan</div>
     </div>
 
@@ -113,7 +113,7 @@
                             <p class="m-0 text-uppercase font-weight-bold text-muted" title="<?php echo "Bilik ".$bilik['no_bilik']; ?>"><?php echo "Bilik ".$bilik['no_bilik']; ?></p>
                             <h2><i class="mdi mdi-arrow-right text-dark font-24"></i></h2>
                             <hr class="mt-4 mb-0">
-                            <p class="text-muted m-0 text-bawah"><span class="font-weight-medium">Status : </span><?php echo ($bilik['id_pemilih'] == null ? 'Aktif, Bilik Kosong':'Tidak Aktif, Bilik Terisi') ?></p>
+                            <p class="text-muted m-0 text-bawah"><span class="font-weight-medium">Status : </span><?php echo ($bilik['id_pemilih'] == null ? 'Aktif, Bilik Kosong':'Tidak Aktif, Bilik Terisi, '.$bilik['nama']) ?></p>
                         </div>
                     </div>
                 </div>
@@ -123,7 +123,7 @@
         <!-- </div> -->
     </div>
 
-    <div class="row">
+    <!-- <div class="row">
         <div class="col-xl-12">
             <h4>Statistik Pemilihan</h4>
         </div>
@@ -158,6 +158,6 @@
             </div>
         </div>
 
-    </div>
+    </div> -->
     <!-- end row -->
     <!-- end row -->

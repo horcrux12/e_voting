@@ -40,7 +40,7 @@ $(document).ready(function(){
         columns: [
             { data: 'nama_kegiatan' },
             { data: 'nama_tps' },
-            { data: 'nama' },
+            { data: 'nama_bilik' },
             { data: 'username' },
             { data: 'no_bilik'},
             { data: 'action', orderable : false },

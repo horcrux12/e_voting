@@ -28,78 +28,145 @@
 
                     <div class="p-4">
                         <form id="wizard-validation-form" action="<?php echo base_url()?>tps/update" method="POST">
-                            <div class="form-group row">
-                                <label class="col-lg-2 control-label " for="kegiatan">Instansi <span
-                                        class="text-danger">*</span></label>
-                                <div class="col-lg-10">
-                                    <select name="kegiatan" id="kegiatan" class="required form-control">
-                                        <?php foreach ($data['kegiatan'] as $key) {?>
-                                        <?php if ($key['id_kegiatan'] === $data['tps'][0]['id_kegiatan']) :?>
-                                           <option value="<?php echo $key['id_kegiatan']?>" selected>
-                                           <?php echo $key['nama_kegiatan']?></option>
-                                        <?php else : ?>
-                                        <option value="<?php echo $key['id_kegiatan']?>">
-                                            <?php echo $key['nama_kegiatan']?></option>
-                                        <?php endif; } ?>
-                                    </select>
+                            <div class="row">
+                                <div class="col-6">
+                                    <label style="font-size: 20px;">Akun TPS</label>
+                                    <hr>
+                                    <div class="form-group row">
+                                        <label class="col-lg-2 control-label " for="kegiatan">Kegiatan <span
+                                                class="text-danger">*</span></label>
+                                        <div class="col-lg-10">
+                                            <select name="kegiatan" id="kegiatan" class="required form-control">
+                                                <?php foreach ($data['kegiatan'] as $key) {?>
+                                                <?php if ($key['id_kegiatan'] === $data['tps'][0]['id_kegiatan']) :?>
+                                                <option value="<?php echo $key['id_kegiatan']?>" selected>
+                                                <?php echo $key['nama_kegiatan']?></option>
+                                                <?php else : ?>
+                                                <option value="<?php echo $key['id_kegiatan']?>">
+                                                    <?php echo $key['nama_kegiatan']?></option>
+                                                <?php endif; } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-2 control-label" for="nama_tps">Nama TPS <span
+                                                class="text-danger">*</span></label>
+                                        <div class="col-lg-10">
+                                            <input type="text" name="id_tps" id="id_tps" value="<?php echo $data['tps'][0]['id_tps']?>" hidden>
+                                            <input class="form-control" id="nama_tps" required="" name="nama_tps" type="text" value="<?php echo $data['tps'][0]['nama']?>">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-2 control-label" for="username">Username <span
+                                                class="text-danger">*</span></label>
+                                        <div class="col-lg-10">
+                                            <input class="form-control" id="username" required="" name="username" type="text"
+                                                data-parsley-trigger="focusout" data-parsley-maxlength="12"
+                                                data-parsley-maxlength-message="Maksimal 12 Karakter.."
+                                                data-parsley-checkusername
+                                                data-parsley-checkusername-message="Username Telah Digunakan" value="<?php echo $data['tps'][0]['username']?>">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-2 control-label" for="password">Password <span
+                                                class="text-danger">*</span></label>
+                                        <div class="col-lg-10">
+                                            <input class="form-control" id="password" required="" name="password"
+                                                type="password">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="offset-sm-2 col-sm-10">
+                                            <div class="checkbox checkbox-primary">
+                                                <input id="checkbox2" type="checkbox">
+                                                <label for="checkbox2">
+                                                    Show Password
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-2 control-label" for="lokasi">Lokasi <span
+                                                class="text-danger">*</span></label>
+                                        <div class="col-lg-10">
+                                            <textarea class="form-control" required="" name="lokasi" id="lokasi" rows="5"
+                                                data-parsley-trigger="keyup" data-parsley-minlength="20"
+                                                data-parsley-minlength-message="Minimal 20 Karakter.."><?php echo $data['tps'][0]['lokasi']?></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-2 control-label" for="no_tps">No TPS <span
+                                                class="text-danger">*</span></label>
+                                        <div class="col-lg-10">
+                                            <input class="form-control" id="no_tps" required="" name="no_tps" type="text"
+                                                data-parsley-trigger="focusout" data-parsley-maxlength="12"
+                                                data-parsley-maxlength-message="Maksimal 12 Karakter.." data-parsley-checknotps data-parsley-type="number"
+                                                data-parsley-checknotps-message="Nomor Telah Digunakan" value="<?php echo $data['tps'][0]['no_tps']?>">
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-lg-2 control-label" for="nama_tps">Nama TPS <span
-                                        class="text-danger">*</span></label>
-                                <div class="col-lg-10">
-                                    <input type="text" name="id_tps" id="id_tps" value="<?php echo $data['tps'][0]['id_tps']?>" hidden>
-                                    <input class="form-control" id="nama_tps" required="" name="nama_tps" type="text" value="<?php echo $data['tps'][0]['nama']?>">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-lg-2 control-label" for="username">Username <span
-                                        class="text-danger">*</span></label>
-                                <div class="col-lg-10">
-                                    <input class="form-control" id="username" required="" name="username" type="text"
-                                        data-parsley-trigger="focusout" data-parsley-maxlength="12"
-                                        data-parsley-maxlength-message="Maksimal 12 Karakter.."
-                                        data-parsley-checkusername
-                                        data-parsley-checkusername-message="Username Telah Digunakan" value="<?php echo $data['tps'][0]['username']?>">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-lg-2 control-label" for="password">Password <span
-                                        class="text-danger">*</span></label>
-                                <div class="col-lg-10">
-                                    <input class="form-control" id="password" required="" name="password"
-                                        type="password">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="offset-sm-2 col-sm-10">
-                                    <div class="checkbox checkbox-primary">
-                                        <input id="checkbox2" type="checkbox">
-                                        <label for="checkbox2">
-                                            Show Password
-                                        </label>
+                                <div class="col-6">
+                                    <label style="font-size: 20px;">Data Kepanitiaan</label>
+                                    <hr>
+                                    <div class="form-group row">
+                                        <label class="col-lg-2 control-label" for="ketua">Nama Ketua <span
+                                                class="text-danger">*</span></label>
+                                        <div class="col-lg-10">
+                                            <input class="form-control" id="ketua" required="" value="<?php echo $data['tps'][0]['ketua'];?>" name="ketua" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-2 control-label" for="anggota_staff_1">Nama Anggota/Staff 1 <span
+                                                class="text-danger">*</span></label>
+                                        <div class="col-lg-10">
+                                            <input class="form-control" id="anggota_staff_1" required="" value="<?php echo $data['tps'][0]['anggota_staff_1'];?>" name="anggota_staff_1" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-2 control-label" for="anggota_staff_2">Nama Anggota/Staff 2 <span
+                                                class="text-danger">*</span></label>
+                                        <div class="col-lg-10">
+                                            <input class="form-control" id="anggota_staff_2" required="" value="<?php echo $data['tps'][0]['anggota_staff_2'];?>" name="anggota_staff_2" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-2 control-label" for="anggota_staff_3">Nama Anggota/Staff 3 <span
+                                                class="text-danger">*</span></label>
+                                        <div class="col-lg-10">
+                                            <input class="form-control" id="anggota_staff_3" required="" value="<?php echo $data['tps'][0]['anggota_staff_3'];?>" name="anggota_staff_3" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-2 control-label" for="anggota_staff_4">Nama Anggota/Staff 4 <span
+                                                class="text-danger">*</span></label>
+                                        <div class="col-lg-10">
+                                            <input class="form-control" id="anggota_staff_4" required="" value="<?php echo $data['tps'][0]['anggota_staff_4'];?>" name="anggota_staff_4" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-2 control-label" for="anggota_staff_5">Nama Anggota/Staff 5 <span
+                                                class="text-danger">*</span></label>
+                                        <div class="col-lg-10">
+                                            <input class="form-control" id="anggota_staff_5" required="" value="<?php echo $data['tps'][0]['anggota_staff_5'];?>" name="anggota_staff_5" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-2 control-label" for="anggota_staff_6">Nama Anggota/Staff 6 <span
+                                                class="text-danger">*</span></label>
+                                        <div class="col-lg-10">
+                                            <input class="form-control" id="anggota_staff_6" required="" value="<?php echo $data['tps'][0]['anggota_staff_6'];?>" name="anggota_staff_6" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-2 control-label" for="anggota_staff_7">Nama Anggota/Staff 7 <span
+                                                class="text-danger">*</span></label>
+                                        <div class="col-lg-10">
+                                            <input class="form-control" id="anggota_staff_7" required="" value="<?php echo $data['tps'][0]['anggota_staff_7'];?>" name="anggota_staff_7" type="text">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group row">
-                                <label class="col-lg-2 control-label" for="lokasi">Lokasi <span
-                                        class="text-danger">*</span></label>
-                                <div class="col-lg-10">
-                                    <textarea class="form-control" required="" name="lokasi" id="lokasi" rows="5"
-                                        data-parsley-trigger="keyup" data-parsley-minlength="20"
-                                        data-parsley-minlength-message="Minimal 20 Karakter.."><?php echo $data['tps'][0]['lokasi']?></textarea>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-lg-2 control-label" for="no_tps">No TPS <span
-                                        class="text-danger">*</span></label>
-                                <div class="col-lg-10">
-                                    <input class="form-control" id="no_tps" required="" name="no_tps" type="text"
-                                        data-parsley-trigger="focusout" data-parsley-maxlength="12"
-                                        data-parsley-maxlength-message="Maksimal 12 Karakter.." data-parsley-checknotps data-parsley-type="number"
-                                        data-parsley-checknotps-message="Nomor Telah Digunakan" value="<?php echo $data['tps'][0]['no_tps']?>">
-                                </div>
-                            </div>
+                            
                             <div class="form-group row">
                                 <div class="col-sm-12 mt-3">
                                     <div class="float-right">

@@ -34,4 +34,19 @@ class M_login_super extends CI_Model {
         }
         return false;
     }
+
+    function auth_bilik($username,$password){
+        $this->db->select('user_bilik.*, kegiatan.*, admin_tps.*');
+        $this->db->from('user_bilik');
+        $this->db->join('kegiatan','user_bilik.id_kegiatan = kegiatan.id_kegiatan');
+        $this->db->join('admin_tps','user_bilik.id_tps = admin_tps.id_tps');
+        $this->db->where('user_bilik.username like binary',$username);
+        $this->db->where('user_bilik.password',$password);
+        $query = $this->db->get();
+        if($query->num_rows() > 0)
+        {
+        return $query->result_array();
+        }
+        return false;
+    }
 }

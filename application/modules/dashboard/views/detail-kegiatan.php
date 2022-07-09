@@ -23,8 +23,22 @@
                     </p>
 
                     <dl class="dl-horizontal row">
-                        <dt class="col-sm-3">Nama Instansi <span class="float-right">:</span></dt>
+                        <dt class="col-sm-3">Nama Kegiatan <span class="float-right">:</span></dt>
                         <dd class="col-sm-9"> <?php echo $data['tps'][0]['nama_kegiatan']; ?></dd>
+
+                        <dt class="col-sm-3">Panitia <span class="float-right">:</span></dt>
+                        <dd class="col-sm-9"> 
+                            <ol class="pl-3" >
+                                <li><?php echo $data['tps'][0]['ketua'].' (ketua)<br>'; ?></li>
+                                <li><?php echo $data['tps'][0]['anggota_staff_1'].'<br>'; ?></li>
+                                <li><?php echo $data['tps'][0]['anggota_staff_2'].'<br>'; ?></li>
+                                <li><?php echo $data['tps'][0]['anggota_staff_3'].'<br>'; ?></li>
+                                <li><?php echo $data['tps'][0]['anggota_staff_4'].'<br>'; ?></li>
+                                <li><?php echo $data['tps'][0]['anggota_staff_5'].'<br>'; ?></li>
+                                <li><?php echo $data['tps'][0]['anggota_staff_6'].'<br>'; ?></li>
+                                <li><?php echo $data['tps'][0]['anggota_staff_7'].'<br>'; ?></li>
+                            </ol>
+                        </dd>
 
                         <dt class="col-sm-3">Waktu Pelaksanaan <span class="float-right">:</span></dt>
                         <dd class="col-sm-9"><?php echo format_indo($data['tps'][0]['start_date']).' s/d '.format_indo($data['tps'][0]['end_date']);?></dd>

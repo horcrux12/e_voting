@@ -29,7 +29,7 @@
                     <div class="p-4">
                         <form id="wizard-validation-form" action="<?php echo base_url()?>bilik/update" method="POST">
                             <div class="form-group row">
-                                <label class="col-lg-2 control-label " for="kegiatan">Instansi <span
+                                <label class="col-lg-2 control-label " for="kegiatan">Kegiatan <span
                                         class="text-danger">*</span></label>
                                 <div class="col-lg-10">
                                     <select name="kegiatan" id="kegiatan" class="form-control" required="">
@@ -63,7 +63,7 @@
                                 <div class="col-lg-10">
                                     <input type="text" id="id_bilik" name="id_bilik" value="<?php echo $data['bilik'][0]['id_bilik']?>" hidden>
                                     <input class="form-control" id="nama_bilik" required="" name="nama_bilik"
-                                        type="text" value="<?php echo $data['bilik'][0]['nama']?>">
+                                        type="text" value="<?php echo $data['bilik'][0]['nama_bilik']?>">
                                 </div>
                             </div>
                             <div class="form-group row">

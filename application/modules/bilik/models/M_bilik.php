@@ -25,7 +25,7 @@ class M_bilik extends CI_Model {
         $filter_tps = $postData['filterTps'];
 
         if ($search != '') {
-            $search_filter[] = " (user_bilik.nama like '%".$search."%' or 
+            $search_filter[] = " (user_bilik.nama_bilik like '%".$search."%' or 
             user_bilik.username like '%".$search."%' or
             user_bilik.no_bilik like '%".$search."%') ";
         }
@@ -67,7 +67,7 @@ class M_bilik extends CI_Model {
             $row = array();
             $row ['nama_kegiatan']  = $field['nama_kegiatan'];
             $row ['nama_tps']       = $field['nama_tps'];
-            $row ['nama']           = $field['nama'];
+            $row ['nama_bilik']     = $field['nama_bilik'];
             $row ['username']       = $field['username'];
             $row ['no_bilik']       = $field['no_bilik'];
             $row ['action']         = '<a title="Edit" class="btn btn-warning waves-effect waves-light btn-xs" style="margin-bottom:5px" href="'.base_url().'bilik/edit-bilik/'.$field['id_bilik'].'"><i class="fas fa-pencil-alt"></i></a>

@@ -26,10 +26,10 @@
                 <div class="row mb-2">
                     <div class="col-lg-4">
                         <div class="form-group row">
-                            <label class="col-lg-3 control-label mt-2" for="filter_kegiatan">Instansi</label>
+                            <label class="col-lg-3 control-label mt-2" for="filter_kegiatan">Kegiatan</label>
                             <div class="col-lg-9">
                                 <select name="filter_kegiatan" id="filter_kegiatan" class="form-control">
-                                    <option value="">Pilih Instansi</option>
+                                    <option value="">Pilih Kegiatan</option>
                                     <?php foreach ($data['kegiatan'] as $kegiatan) {?>
                                         <option value="<?php echo $kegiatan['id_kegiatan']?>"><?php echo $kegiatan['nama_kegiatan']?></option>
                                     <?php } ?>

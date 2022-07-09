@@ -31,7 +31,7 @@
                             <div class="text-center account-logo-box">
                                 <div class="mt-2 mb-2">
                                     <a href="index.html" class="text-success">
-                                        <span><img src="<?php echo base_url();?>assets/images/logo.png" alt="" height="36"></span>
+                                        <span><img src="<?php echo base_url();?>assets/images/logo-voting.png" alt="" height="36"></span>
                                     </a>
                                 </div>
                             </div>
@@ -82,6 +82,10 @@
 
         <!-- App js -->
         <script src="<?php echo base_url();?>assets/js/app.min.js"></script>
+
+        <?php if (isset($js)) {
+            echo $js;
+        } ?>
 
     </body>
 

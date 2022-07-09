@@ -18,11 +18,13 @@
         <div class="card">
             <div class="card-header bg-light">
                 <h4 class="header-title mb-3"><b>Tabel <?php echo $title?></b>
+                    <?php if($this->session->userdata('level_admin') == 1) {?>
                     <!-- Responsive modal -->
                     <a href="<?php echo base_url()?>pemilih_pelajar/tambah-pemilih_pelajar" class="btn btn-primary float-right">
                         <i class="fas fa-plus-circle pull-left mr-2"></i> Tambah Data
                     </a>
                     <button class="btn btn-primary waves-effect waves-light float-right mr-2" data-toggle="modal" data-target="#con-close-modal">Import Data</button>
+                    <?php }?>
                 </h4>
             </div>
             <div class="card-body">

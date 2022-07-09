@@ -105,8 +105,7 @@
         <div class="row text-center">
             <div class="col-lg-12 col-md-12 col-xl-12" style="margin-bottom: 150px;">
                 <h4 class="tittle text-light">
-                    <img src="<?php echo base_url()?>assets/images/logo_voting.png" alt="" style="height: 100px">
-                    e-Voting
+                    <img src="<?php echo base_url()?>assets/images/logo-voting.png" alt="" style="height: 100px">
                 </h4>
             </div>
             <div class="col-lg-4 mb-5 over">
@@ -144,7 +143,7 @@
             // $(".over").hover(function(){
             //     $(this"a.pilihan").css({"transform":"scale(1.3)","border-radius":" %"});
             // })
-        })
+        });
     </script>
 </body>
 

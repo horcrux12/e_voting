@@ -128,10 +128,6 @@ class Tps extends MY_Controller {
 			'lokasi'		=> $this->input->post('lokasi'),
 			'no_tps'		=> $this->input->post('no_tps'),
 			'jumlah_bilik'	=> 0,
-			'id_kegiatan'	=> $this->input->post('kegiatan'),
-		);
-
-		$data_panitia = array(
 			'ketua'				=> $this->input->post('ketua'),
 			'anggota_staff_1'	=> $this->input->post('anggota_staff_1'),
 			'anggota_staff_2'	=> $this->input->post('anggota_staff_2'),
@@ -141,6 +137,10 @@ class Tps extends MY_Controller {
 			'anggota_staff_6'	=> $this->input->post('anggota_staff_6'),
 			'anggota_staff_7'	=> $this->input->post('anggota_staff_7'),
 			'id_kegiatan'		=> $this->input->post('kegiatan'),
+		);
+
+		$data_panitia = array(
+			
 			'id_tps'			=> $tps_now
 		);
 
@@ -190,7 +190,15 @@ class Tps extends MY_Controller {
 			'password'		=> md5($input['password']),
 			'lokasi'		=> $input['lokasi'],
 			'no_tps'		=> $input['no_tps'],
-			'id_kegiatan'	=> $input['kegiatan'],
+			'ketua'				=> $this->input->post('ketua'),
+			'anggota_staff_1'	=> $this->input->post('anggota_staff_1'),
+			'anggota_staff_2'	=> $this->input->post('anggota_staff_2'),
+			'anggota_staff_3'	=> $this->input->post('anggota_staff_3'),
+			'anggota_staff_4'	=> $this->input->post('anggota_staff_4'),
+			'anggota_staff_5'	=> $this->input->post('anggota_staff_5'),
+			'anggota_staff_6'	=> $this->input->post('anggota_staff_6'),
+			'anggota_staff_7'	=> $this->input->post('anggota_staff_7'),
+			'id_kegiatan'		=> $this->input->post('kegiatan'),
 		);
 
 		$input_tps = $this->m_dinamic->update_data('id_tps',$where,$data_tps,'admin_tps');

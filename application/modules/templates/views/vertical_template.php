@@ -141,16 +141,10 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="javascript: void(0);" class="waves-effect waves-light">
-                                <i class="mdi mdi-invert-colors"></i>
-                                <span> TPS </span>
-                                <span class="menu-arrow"></span>
+                            <a href="<?php echo base_url();?>tps" class="waves-effect waves-light">
+                                <i class="mdi mdi-calendar"></i>
+                                <span> Data TPS </span>
                             </a>
-                            <ul class="nav-second-level" aria-expanded="false">
-
-                                <li><a href="<?php echo base_url();?>tps">Data TPS</a></li>
-                                <li><a href="<?php echo base_url();?>panitia">Data Panitia</a></li>
-                            </ul>
                         </li>
                         <li>
                             <a href="<?php echo base_url();?>bilik" class="waves-effect waves-light">

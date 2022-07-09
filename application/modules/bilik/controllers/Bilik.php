@@ -128,7 +128,7 @@ class Bilik extends MY_Controller {
 		$where_tps = $input['tps'];
 
 		$data_bilik = array(
-			'nama'			=> $this->input->post('nama_bilik'),
+			'nama_bilik'	=> $this->input->post('nama_bilik'),
 			'username'		=> $this->input->post('username'),
 			'password'		=> md5($this->input->post('password')),
 			'no_bilik'		=> $this->input->post('no_bilik'),
@@ -169,7 +169,7 @@ class Bilik extends MY_Controller {
 		$where = $input['id_bilik'];
 
 		$data_bilik = array(
-			'nama'			=> $input['nama_bilik'],
+			'nama_bilik'	=> $input['nama_bilik'],
 			'username'		=> $input['username'],
 			'password'		=> md5($input['password']),
 			'no_bilik'		=> $input['no_bilik'],

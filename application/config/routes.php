@@ -57,16 +57,26 @@ $route['translate_uri_dashes'] = FALSE;
 $route['dashboard'] = 'dashboard/dashboard/index';
 $route['dashboard/time-limit'] = 'dashboard/dashboard/limit';
 $route['detail-kegiatan'] = 'dashboard/dashboard/detail';
+$route['tambah-waktu-kegiatan'] = 'dashboard/dashboard/tambah_waktu';
+$route['tambah-waktu-kegiatan/store'] = 'dashboard/dashboard/store_waktu';
 
 $route['menu-user'] = 'menu_user/user/table';
 $route['menu-user/tambah'] = 'menu_user/user/tambah';
 $route['menu-user/ambil'] = 'menu_user/user/interval';
 $route['menu-user/simpan'] = 'menu_user/user/simpan';
 
+// Bilik Suara
+$route['bilik-suara/bilik'] = 'bilik_pemilihan/bilik_pemilihan/bilik';
+$route['bilik-suara/get-status'] = 'bilik_pemilihan/bilik_pemilihan/status';
+$route['bilik-suara/get-interval'] = 'bilik_pemilihan/bilik_pemilihan/interval';
+$route['bilik-suara/store'] = 'bilik_pemilihan/bilik_pemilihan/store';
+
+
 // Login Admin
 $route['login'] = 'login/login/index';
 $route['logout'] = 'login/login/logout';
 $route['login/super-admin'] = 'login/login/login_super';
+$route['login/bilik-force/(:num)'] = 'login/login/force/$1';
 $route['login/admin-tps'] = 'login/login/login_tps';
 $route['login/bilik'] = 'login/login/login_bilik';
 $route['login/auth'] = 'login/login/auth_super';
@@ -124,6 +134,11 @@ $route['bilik/server-side'] = 'bilik/bilik/serverSide';
 $route['bilik/getbilik/(:num)'] = 'bilik/bilik/get_bilik/$1';
 $route['bilik/check-user/(:num)'] = 'bilik/bilik/checkbilik/$1';
 $route['bilik/check-no/(:num)'] = 'bilik/bilik/checknobilik/$1';
+
+// Berita acara
+$route['berita-acara'] = 'berita_acara/berita_acara';
+$route['berita-acara/acara'] = 'berita_acara/berita_acara/berita_acara';
+$route['berita-acara/hasil'] = 'berita_acara/berita_acara/hasil_suara';
 
 // Panitia
 $route['panitia'] = 'panitia/panitia/table';

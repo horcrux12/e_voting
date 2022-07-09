@@ -6,7 +6,8 @@
 	"license": "MIT",
 	"require": {
 		"php": ">=5.2.4",
-		"phpoffice/phpspreadsheet": "^1.12"
+		"phpoffice/phpspreadsheet": "^1.12",
+		"mpdf/mpdf": "^8.0"
 	},
 	"suggest": {
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"

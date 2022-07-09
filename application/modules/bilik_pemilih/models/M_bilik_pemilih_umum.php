@@ -54,7 +54,7 @@ class M_bilik_pemilih_umum extends CI_Model {
         // Get data
         $this->db->select('data_pemilih_umum.*, kegiatan.id_kegiatan AS id_kegiatan,
          kegiatan.nama_kegiatan AS nama_kegiatan, admin_tps.id_tps AS id_tps, admin_tps.nama AS nama_tps,
-         user_bilik.id_bilik AS id_bilik, user_bilik.nama AS nama_bilik, user_bilik.no_bilik');
+         user_bilik.id_bilik AS id_bilik, user_bilik.nama_bilik AS nama_bilik, user_bilik.no_bilik');
         $this->db->from('data_pemilih_umum');
         $this->db->join('kegiatan', 'data_pemilih_umum.id_kegiatan = kegiatan.id_kegiatan','left');
         $this->db->join('admin_tps', 'data_pemilih_umum.id_tps = admin_tps.id_tps','left');

@@ -12,7 +12,7 @@ $(document).ready(function(){
     //     lengthMenu: [[10, 25, 60, -1], [10, 25, 60, "All"]],
 	// 	cahce: false
     // });
-
+    // console.log("ready")
     // $.ajax({
     //     method : 'POST',
     //     url : baseurl+'menu-user',

@@ -27,7 +27,7 @@ class M_pemilihan extends CI_Model {
             $search_filter[] = " (pemilihan.nama_pemilihan like '%".$search."%' or 
             pemilihan.jumlah_kandidat like '%".$search."%') ";
         }
-        if ($filter_kegiatan =! '') {
+        if ($filter_kegiatan != '') {
             $search_filter[] = " pemilihan.id_kegiatan='".$filter_kegiatan."'";
         }
 
@@ -73,7 +73,8 @@ class M_pemilihan extends CI_Model {
             "draw" => intval($draw),
             "iTotalRecords" => $totalRecords,
             "iTotalDisplayRecords" => $totalRecordwithFilter,
-            "aaData" => $data
+            "aaData" => $data,
+            "datas" => $postData['filterKegiatan']
         );
 
         return $response;

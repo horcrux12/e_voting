@@ -26,10 +26,10 @@
                         <label style="font-size: 20px;">Akun TPS</label>
                         <hr>
                         <div class="form-group row">
-                            <label class="col-lg-2 control-label " for="kegiatan">Instansi <span class="text-danger">*</span></label>
+                            <label class="col-lg-2 control-label " for="kegiatan">Kegiatan <span class="text-danger">*</span></label>
                             <div class="col-lg-10">
                                 <select name="kegiatan" id="kegiatan" class="required form-control" required="">
-                                    <option value="">Pilih Instansi</option>
+                                    <option value="">Pilih Kegiatan</option>
                                     <?php foreach ($data as $key) {?>
                                         <option value="<?php echo $key['id_kegiatan']?>"><?php echo $key['nama_kegiatan']?></option>
                                     <?php } ?>

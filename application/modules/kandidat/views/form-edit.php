@@ -29,7 +29,7 @@
                     <div class="p-4">
                         <form id="wizard-validation-form" action="<?php echo base_url()?>kandidat/update" method="POST" enctype="multipart/form-data">
                             <div class="form-group row">
-                                <label class="col-lg-2 control-label " for="kegiatan">Instansi <span
+                                <label class="col-lg-2 control-label " for="kegiatan">Kegiatan <span
                                         class="text-danger">*</span></label>
                                 <div class="col-lg-10">
                                     <select name="kegiatan" id="kegiatan" class="required form-control" required>

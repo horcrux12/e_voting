@@ -22,11 +22,11 @@
             <h4 class="header-title">Form <?php echo $title ?></h4>
             <form id="wizard-validation-form" action="<?php echo base_url()?>bilik/store" method="POST">
                 <div class="form-group row">
-                    <label class="col-lg-2 control-label " for="kegiatan">Instansi <span
+                    <label class="col-lg-2 control-label " for="kegiatan">Kegiatan <span
                             class="text-danger">*</span></label>
                     <div class="col-lg-10">
                         <select name="kegiatan" id="kegiatan" class="form-control" required="">
-                            <option value="">Pilih Instansi</option>
+                            <option value="">Pilih Kegiatan</option>
                             <?php foreach ($data as $key) {?>
                             <option value="<?php echo $key['id_kegiatan']?>"><?php echo $key['nama_kegiatan']?></option>
                             <?php } ?>

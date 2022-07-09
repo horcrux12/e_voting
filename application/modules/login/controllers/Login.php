@@ -12,7 +12,11 @@ class Login extends MX_Controller {
 	public function index()
 	{
         if (isset($this->session->userdata['logged'])) {
-            redirect('dashboard');
+            if ($this->session->userdata('level_admin') == 3) {
+                redirect('Bilik-pemilihan/bilik/');
+            }else{
+                redirect('dashboard');
+            }
         }
         $this->load->view('choose_login');
     }
@@ -36,6 +40,11 @@ class Login extends MX_Controller {
     public function login_bilik(){
         if (isset($this->session->userdata['logged'])) {
             redirect('dashboard');
+        }
+        if (isset($this->session->flashdata['message'])) {
+            echo "<script>
+            alert('".$this->$this->flashdata('message')."');
+            </script>";
         }
         $data['data_level'] = 3;
         $this->load->view('login_super',$data);
@@ -70,9 +79,9 @@ class Login extends MX_Controller {
         if($level == 2){
             $response = $this->m_login_super->auth_tps($username,$password);
 
-            echo "<pre>";
-            print_r($response);
-            echo "</pre>";
+            // echo "<pre>";
+            // print_r($response);
+            // echo "</pre>";
 
             if ($response != '') {
 
@@ -101,59 +110,65 @@ class Login extends MX_Controller {
             }
         }
         if($level == 3){
+            $response = $this->m_login_super->auth_bilik($username,$password);
 
+            if ($response[0]['status_login'] == 1) {
+                echo "<script>
+                if(confirm('Bilik telah digunakan!! klik \"OK\" jika Anda ingin tetap menggunakan akun ini ??')){
+                    window.location.href='".base_url('login/bilik-force/').$response[0]['id_bilik']."';
+                }else{
+                    window.location.href='".base_url('login/bilik/')."';
+                }
+                </script>";
+            }else{
+                $data=array(
+                    'status_login' => 1
+                );
+                $this->m_dinamic->update_data('id_bilik',$response[0]['id_bilik'],$data,'user_bilik');
+                if ($response != '') {
+                    $data_session = [
+                        'id_login'          => $response[0]['id_bilik'],
+                        'id_kegiatan'       => $response[0]['id_kegiatan'],
+                        'id_jenis'          => $response[0]['id_jenis'],
+                        'id_tps'            => $response[0]['id_tps'],
+                        'nama'              => $response[0]['nama_bilik'],
+                        'no_bilik'          => $response[0]['no_bilik'],
+                        'level_admin'       => 3,
+                        'logged'            => 1
+                    ];
+                    
+                    $this->session->set_userdata($data_session);
+                    redirect('bilik-suara/bilik/');
+                }
+                else{
+                    echo "<script>
+                    alert('Oopss! Kombinasi salah');
+                    window.location.href='".base_url('login/admin-tps')."';
+                    </script>";
+                }
+            }
+            // echo "<pre>";
+            // print_r($response);
+            // echo "</pre>";  
         }
-        
-        
-        // print_r($response);
-        // if($response['user']['total_data'] == 1)
-        // {
-        //     foreach($response['user']['data'] as $user)
-        //     {
-        //         if($user['username_manager'] == $username && $user['email_manager'] == $email && $user['password_manager'] == $password)
-        //         {
-        //             if($user['layanan']['status_lk'] == "1")
-        //             {
-        //                 $data_session = [
-        //                     'id_manager' => $user['id_manager'],
-        //                     'username' => $user['username_manager'],
-        //                     'lk_id' => $user['lk_id'],
-        //                     'level_manager' => $user['level_manager'],
-        //                     'status_manager' => $user['layanan']['status_lk'],
-        //                     'nama_lk' => $user['layanan']['nama_lk'],
-        //                     'induk_id' => $user['layanan']['induk_id'],
-        //                     'token' => $response['token'],
-        //                     'image' => $user['layanan']['logo_lk'],
-        //                     'logged' => 1
-        //                 ];
-    
-        //                 $this->session->set_userdata($data_session);
-    
-        //                 redirect(base_url('dashboard'));
-    
-        //             }else{
-        //                 echo "<script>
-        //                 alert('Oopss! your account is not activated');
-        //                 window.location.href='".base_url('login')."';
-        //                 </script>";
-        //             }
-        //         }
-        //         echo "<script>
-        //         alert('Oopss! Kombinasi salah');
-        //         window.location.href='".base_url('login')."';
-        //         </script>";
-        //     }
-        // }else{
-        //     echo "<script>
-        //     alert('Oopss! Kombinasi salah');
-        //     window.location.href='".base_url('login')."';
-        //     </script>";
-        // }
-
     }
     public function logout()
     {
         $this->session->sess_destroy();
 		redirect('login');
+    }
+
+    public function force($id){
+        $data = array(
+            'status_login' => 0
+        );
+        $up = $this->m_dinamic->update_data('id_bilik',$id,$data,'user_bilik');
+        if ($up) {
+            echo "<script>
+            alert('Silahkan login kembali');
+            window.location.href='".base_url('login/bilik')."';
+            </script>";
+            // redirect('login/bilik');
+        }
     }
 }
